@@ -1,3 +1,4 @@
+![Banner](banner.png)
 
 # Random ASCII Art Pattern Generator
 
