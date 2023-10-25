@@ -20,6 +20,8 @@ parser = argparse.ArgumentParser(description='Generate random ASCII art pattern 
 parser.add_argument('--min-bishops', type=int, default=2, help='Minimum number of bishops')
 parser.add_argument('--max-bishops', type=int, default=10, help='Maximum number of bishops')
 parser.add_argument('--different-alphabets', action='store_true', help='Use different alphabets for different bishops')
+parser.add_argument('--num-outputs', type=int, default=1, help='Number of outputs to generate')
+
 
 args = parser.parse_args()
 
@@ -168,9 +170,11 @@ def write_to_pdf(room_string, filename_without_extension):
     c.save()
 
 
-num_bishops = random.randint(args.min_bishops, args.max_bishops)
-random_bytes = [random.randint(0, 255) for _ in range(200)]
-room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops)
-room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
-filename_without_extension = write_to_file(room_string)
-write_to_pdf(room_string, filename_without_extension)
+for _ in range(args.num_outputs):
+    num_bishops = random.randint(args.min_bishops, args.max_bishops)
+    random_bytes = [random.randint(0, 255) for _ in range(200)]
+    room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops)
+    room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
+    filename_without_extension = write_to_file(room_string)
+    write_to_pdf(room_string, filename_without_extension)
+
