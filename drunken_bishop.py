@@ -3,9 +3,7 @@ import random
 import argparse
 import unicodedata
 from PIL import Image, ImageDraw, ImageFont
-import seaborn as sns
 import pandas as pd
-import matplotlib.pyplot as plt
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.units import inch
