@@ -34,7 +34,7 @@ pip install -r requirements.txt
 To run the script with default settings:
 
 ```bash
-python script_name.py
+python drunken_bishop.py
 ```
 
 ### Advanced Usage
@@ -42,7 +42,7 @@ python script_name.py
 To customize the number of bishops, different alphabets, and other settings:
 
 ```bash
-python script_name.py --min-bishops 4 --max-bishops 20 --different-alphabets
+python drunken_bishop.py --min-bishops 4 --max-bishops 20 --different-alphabets
 ```
 
 ### Help Menu
@@ -50,7 +50,7 @@ python script_name.py --min-bishops 4 --max-bishops 20 --different-alphabets
 To view all the possible uses and flags:
 
 ```bash
-python script_name.py -h
+python drunken_bishop.py -h
 ```
 
 ## Output
