@@ -24,7 +24,7 @@ This Python script generates random ASCII art patterns using multiple bishops wi
 You can install the required third-party packages using pip:
 
 ```bash
-pip install pillow pandas reportlab
+pip install -r requirements.txt
 ```
 
 ## Usage
