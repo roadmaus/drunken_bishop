@@ -6,6 +6,16 @@ from PIL import Image, ImageDraw, ImageFont
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib import colors
+
+# Register the font (change the path and name accordingly)
+pdfmetrics.registerFont(TTFont('Mono', 'Menlo-Regular.ttf'))
 
 # Argument Parsing
 parser = argparse.ArgumentParser(description='Generate random ASCII art pattern with multiple bishops.')
@@ -103,40 +113,6 @@ def room_to_string(room, bishop_alphabets, bishop_tracker):
     output += "+" + "-" * RoomWidth + "+"
     return output
 
-def generate_image(room, bishop_alphabets, bishop_tracker, filename):
-    img_width, img_height = 512, 768  # Desired output dimensions
-    aspect_ratio = RoomWidth / RoomHeight
-    # Calculate cell dimensions based on aspect ratio
-    cell_height = img_height // RoomHeight
-    cell_width = int(cell_height * aspect_ratio)
-    
-    # Adjust image dimensions based on cell dimensions
-    img_width = RoomWidth * cell_width
-    img_height = RoomHeight * cell_height
-    
-    img = Image.new('RGB', (img_width, img_height), color='white')
-    draw = ImageDraw.Draw(img)
-
-    for row_idx, row in enumerate(room):
-        for col_idx, col in enumerate(row):
-            bishop_index = bishop_tracker[row_idx][col_idx]
-            max_val = len(bishop_alphabets[bishop_index])
-            # Map the cell value to a pastel color
-            ratio = col / max_val
-            R = int(255 * (1 - ratio))
-            G = int(255 * ratio)
-            B = int(255 * (1 - abs(ratio - 0.5) * 2))
-
-            color = (R, G, B)
-            draw.rectangle(
-                [col_idx * cell_width, row_idx * cell_height,
-                 (col_idx + 1) * cell_width, (row_idx + 1) * cell_height],
-                fill=color
-            )
-
-    img = img.rotate(90, expand=1)
-    img.save(f"{filename}.png")
-
 def write_to_file(room_string):
     folder_name = "random_patterns"
     if not os.path.exists(folder_name):
@@ -152,10 +128,51 @@ def write_to_file(room_string):
     
     return filename  # Return filename without extension
 
+def rgb_to_reportlab(r, g, b):
+    """Converts an RGB color in range 0-255 to a ReportLab Color."""
+    return colors.Color(r / 255.0, g / 255.0, b / 255.0)
+
+# Step 1: Get the RGB values of your terminal's background and foreground colors.
+# For example, if your terminal uses a background color of #282C34 and a foreground color of #ABB2BF:
+term_bg = rgb_to_reportlab(40, 44, 52)
+term_fg = rgb_to_reportlab(171, 178, 191)
+
+def write_to_pdf(room_string, filename_without_extension):
+    custom_page_size = (510, 680)  # Width x Height in points
+    c = canvas.Canvas(f"{filename_without_extension}.pdf", pagesize=custom_page_size)
+    width, height = custom_page_size
+    
+    # Step 2: Use your terminal colors
+    c.setFillColor(term_bg)
+    c.rect(0, 0, width, height, fill=1)
+    
+    c.setFont("Mono", 8)
+    c.setFillColor(term_fg)
+    
+    lines = room_string.split('\n')
+    line_height = 8  # Reduced line height
+    x = 5  # Reduced x position
+    
+    # Margins
+    top_margin = 10
+    bottom_margin = 10
+    
+    # Calculate total height of text and adjust starting y position
+    total_text_height = len(lines) * line_height
+    starting_y = (height - total_text_height - top_margin - bottom_margin) // 2 + total_text_height + bottom_margin
+
+    y = starting_y
+    
+    for line in lines:
+        c.drawString(x, y, line)
+        y -= line_height  # Move down one line
+
+    c.save()
+
 
 num_bishops = random.randint(args.min_bishops, args.max_bishops)
 random_bytes = [random.randint(0, 255) for _ in range(200)]
 room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops)
 room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
 filename_without_extension = write_to_file(room_string)
-generate_image(room, bishop_alphabets, bishop_tracker, filename_without_extension)
+write_to_pdf(room_string, filename_without_extension)
