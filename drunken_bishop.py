@@ -21,9 +21,13 @@ parser.add_argument('--min-bishops', type=int, default=2, help='Minimum number o
 parser.add_argument('--max-bishops', type=int, default=10, help='Maximum number of bishops')
 parser.add_argument('--different-alphabets', action='store_true', help='Use different alphabets for different bishops')
 parser.add_argument('--num-outputs', type=int, default=1, help='Number of outputs to generate')
+parser.add_argument('--rand-col', action='store_true', help='Use random background color from predefined palette')
 
 
 args = parser.parse_args()
+
+# Predefined background colors in HEX
+PREDEFINED_COLORS = ["dc6900", "eb8c00", "e0301e", "a32020", "602320"]
 
 RoomWidth = 100
 RoomHeight = 80
@@ -128,14 +132,29 @@ def write_to_file(room_string):
     
     return filename  # Return filename without extension
 
+def hex_to_rgb(hex_code):
+    hex_code = hex_code.lstrip("#")
+    return tuple(int(hex_code[i:i+2], 16) for i in (0, 2, 4))
+
+
 def rgb_to_reportlab(r, g, b):
     """Converts an RGB color in range 0-255 to a ReportLab Color."""
     return colors.Color(r / 255.0, g / 255.0, b / 255.0)
 
-# Step 1: Get the RGB values of your terminal's background and foreground colors.
-# For example, if your terminal uses a background color of #282C34 and a foreground color of #ABB2BF:
-term_bg = rgb_to_reportlab(40, 44, 52)
-term_fg = rgb_to_reportlab(171, 178, 191)
+# For background color (8, 4, 5, 1)
+term_bg = rgb_to_reportlab(30, 30, 30)
+
+# For foreground color (251, 251, 251, 1)
+term_fg = rgb_to_reportlab(251, 251, 251)
+
+# Parse background color
+if args.rand_col:
+    bg_color_hex = random.choice(PREDEFINED_COLORS)
+else:
+    bg_color_hex = "1E1E1E"  # The default color
+
+bg_r, bg_g, bg_b = hex_to_rgb(bg_color_hex)
+term_bg = rgb_to_reportlab(bg_r, bg_g, bg_b)
 
 def write_to_pdf(room_string, filename_without_extension):
     custom_page_size = (510, 680)  # Width x Height in points
