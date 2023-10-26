@@ -37,7 +37,9 @@ To run the script with default settings:
 ```bash
 python drunken_bishop.py
 ```
+
 ## Example output
+
 ![Example](example.png)
 
 ### Advanced Usage
@@ -47,6 +49,8 @@ To customize the number of bishops, different alphabets, and other settings:
 ```bash
 python drunken_bishop.py --min-bishops 4 --max-bishops 20 --different-alphabets
 ```
+
+or use the **--I** flag for an Interactive version of this Script
 
 ### Help Menu
 
