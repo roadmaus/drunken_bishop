@@ -37,6 +37,8 @@ To run the script with default settings:
 ```bash
 python drunken_bishop.py
 ```
+## Example output
+![Example](example.png)
 
 ### Advanced Usage
 
