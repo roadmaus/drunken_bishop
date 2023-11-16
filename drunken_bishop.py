@@ -1,6 +1,7 @@
 import os
 import json
 import random
+import colorsys
 import inquirer 
 import argparse
 import unicodedata
@@ -25,11 +26,12 @@ parser.add_argument('--max-bishops', type=int, default=10, help='Maximum number 
 parser.add_argument('--different-alphabets', action='store_true', help='Use different alphabets for different bishops')
 parser.add_argument('--num-outputs', type=int, default=1, help='Number of outputs to generate')
 parser.add_argument('--rand-col', action='store_true', help='Use random background color from predefined palette')
+parser.add_argument('--rand-pleasing-col', action='store_true', help='Use a random pleasing color')
 parser.add_argument('--I', action='store_true', help='Interactive mode')
 parser.add_argument('--sober', action='store_true', help='Generate a symmetrical pattern')
 parser.add_argument('--landscape', action='store_true', help='Produce output in landscape format')
 parser.add_argument('--label', action='store_true', help='Add auto-generated label to the output')
-parser.add_argument('--ulabel', type=str, help='User-defined label to be added to the output')
+parser.add_argument('--ulabel', type=str, help='Specify a custom label for the output. For special characters (e.g., &, %%), enclose the label in quotes, like "Bishop&Bytes".')
 
 
 args = parser.parse_args()
@@ -41,6 +43,7 @@ def get_user_choices():
         inquirer.List('different_alphabets', message='Use different alphabets for different bishops?', choices=['Yes', 'No'], default='No'),
         inquirer.Text('num_outputs', message="Number of outputs to generate [Default: 1]", default='1'),
         inquirer.List('rand_col', message='Use random background color from predefined palette?', choices=['Yes', 'No'], default='No'),
+        inquirer.List('rand_pleasing_col', message='Use a random pleasing color?', choices=['Yes', 'No'], default='No'),        
         inquirer.List('sober', message='use a sober bishop?', choices=['Yes', 'No'], default='No'),  # Existing question
         inquirer.List('landscape', message='Produce output in landscape format?', choices=['Yes', 'No'], default='No'),  # New question
         inquirer.List('label', message='Add a label to the output?', choices=['No', 'Yes, random', 'Yes, custom'], default='No'),
@@ -88,6 +91,19 @@ DIRECTIONS = {
     "S": [1, 0],
     "W": [0, -1]
 }
+
+def generate_pleasing_color():
+    hue = random.random()  # Generates a random number between 0 and 1
+    saturation = 0.9  # Set saturation to 90%
+    lightness = 0.5  # Set lightness to 50%
+
+    # Convert HSL color to RGB
+    r, g, b = [int(x * 255) for x in colorsys.hls_to_rgb(hue, lightness, saturation)]
+    
+    # Convert RGB color to hexadecimal
+    hex_color = "{:02x}{:02x}{:02x}".format(r, g, b)
+    
+    return hex_color
 
 def update_counter(filename, num_bishops, sober, random_bytes):
     counter_file = "counter.json"
@@ -247,13 +263,12 @@ def write_to_pdf(room_string, filename_without_extension, banner_text):
     if banner_text:
         c.setFont("UnifrakturMaguntia", 10)  # Adjust size as needed
         text_width = pdfmetrics.stringWidth(banner_text, "UnifrakturMaguntia", 10)
-        text_x = (width - text_width) / 2
+        text_x = (width - text_width) / 2 - 8  # Adjust position as needed
         text_y = 5  # Adjust position as needed
-        
+
         c.drawString(text_x, text_y, banner_text)
 
     c.save()
-
 if __name__ == "__main__":
     args = parser.parse_args()
 
@@ -264,13 +279,15 @@ if __name__ == "__main__":
         args.different_alphabets = user_choices['different_alphabets'] == 'Yes'
         args.num_outputs = int(user_choices['num_outputs'])
         args.rand_col = user_choices['rand_col'] == 'Yes'
+        args.rand_pleasing_col = user_choices['rand_pleasing_col'] == 'Yes'
         args.sober = user_choices['sober'] == 'Yes'
         args.landscape = user_choices['landscape'] == 'Yes'  
         args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
         args.ulabel = user_choices['ulabel'] if 'ulabel' in user_choices else None
-
-    pattern_number = None  # Initialize pattern_number to None
-
+    else:
+        args.ulabel = args.ulabel if args.ulabel else None
+        if args.ulabel:
+            args.label = True
 
     if args.landscape:
         RoomWidth = 160  
@@ -282,23 +299,29 @@ if __name__ == "__main__":
     for _ in range(args.num_outputs):
         if args.rand_col:
             bg_color_hex = random.choice(PREDEFINED_COLORS)
-            bg_r, bg_g, bg_b = hex_to_rgb(bg_color_hex)
-            term_bg = rgb_to_reportlab(bg_r, bg_g, bg_b)
+        elif args.rand_pleasing_col:
+            bg_color_hex = generate_pleasing_color()
+        else:
+            bg_color_hex = "1E1E1E"  # The default color
+
+        bg_r, bg_g, bg_b = hex_to_rgb(bg_color_hex)
+        term_bg = rgb_to_reportlab(bg_r, bg_g, bg_b)
         
         num_bishops = random.randint(args.min_bishops, args.max_bishops)
         random_bytes = [random.randint(0, 255) for _ in range(200)]
         room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops, args.sober)
         room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
         filename_without_extension = write_to_file(room_string)
-        
+
+        # Update the counter file
+        pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
+    
         # Generate label based on user input or auto-generation
         if args.label:
             if args.ulabel:  # User has provided a custom label
                 custom_label = args.ulabel
-                pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
                 banner_text = f"{custom_label} #{pattern_number}"
             else:  # User wants an auto-generated label
-                pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
                 banner_text = f"{pattern_name} #{pattern_number}"
         else:  # No label should be added
             banner_text = ""
