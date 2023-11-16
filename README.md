@@ -28,6 +28,53 @@ You can install the required third-party packages using pip:
 pip install -r requirements.txt
 ```
 
+## About the Drunken Bishop Algorithm
+
+The "drunken-bishop" algorithm, initially devised for visualizing SSH key fingerprints in OpenSSH, represents a sophisticated approach to rendering complex data into an accessible, visual format. This algorithm emerged not merely as a whimsical method, but as a robust means to depict the inherent randomness and uniqueness of SSH keys.
+
+In this context, the Random ASCII Art Pattern Generator repurposes the "drunken-bishop" algorithm.
+Here, the algorithm is no longer a tool for security visualization, but an instrument for generating distinctive ASCII patterns. The core principle of the algorithm is its stochastic movement, reminiscent of a bishop's diagonal strides in chess. This movement, dictated by the input data, ensures that each execution yields a unique, non-repetitive pattern.
+
+The algorithm's elegance is in its fusion of simplicity and complexity, order and chaos. It demonstrates how algorithmic processes can transcend their original utilitarian purposes to inspire creative expression.
+
+
+## Installation with Virtual Environment
+
+To ensure a clean and isolated environment for running the script, it's recommended to use a virtual environment. Here's how you can set it up:
+
+1. **Create a Virtual Environment:**
+   ```bash
+   python -m venv venv
+   ```
+   This command creates a new virtual environment named `venv` in your current directory.
+
+2. **Activate the Virtual Environment:**
+   - On Windows:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - On macOS and Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+   This step activates the virtual environment. You'll notice `(venv)` appears before your command prompt when it's active.
+
+3. **Install Dependencies:**
+   While the virtual environment is active, install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   This ensures all dependencies are installed within the `venv` and not globally.
+
+4. **Running the Script:**
+   You can now run the script as mentioned in the Usage section.
+
+5. **Deactivating the Virtual Environment:**
+   Once you're done, you can deactivate the virtual environment by typing:
+   ```bash
+   deactivate
+   ```
+
 ## Usage
 
 ### Basic Usage
