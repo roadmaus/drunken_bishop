@@ -48,13 +48,12 @@ python drunken_bishop.py
 
 ![Example_sober](example_sober.png)
 
-
 ### Advanced Usage
 
 To customize the number of bishops, different alphabets, and other settings:
 
 ```bash
-python drunken_bishop.py --min-bishops 4 --max-bishops 20 --different-alphabets
+python drunken_bishop.py --min-bishops 4 --max-bishops 20 --different-alphabets --num-outputs 12 --rand-col --sober --landscape 
 ```
 
 or use the **--I** flag for an Interactive version of this Script
