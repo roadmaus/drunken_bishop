@@ -25,6 +25,7 @@ parser.add_argument('--num-outputs', type=int, default=1, help='Number of output
 parser.add_argument('--rand-col', action='store_true', help='Use random background color from predefined palette')
 parser.add_argument('--I', action='store_true', help='Interactive mode')
 parser.add_argument('--sober', action='store_true', help='Generate a symmetrical pattern')
+parser.add_argument('--landscape', action='store_true', help='Produce output in landscape format')
 
 args = parser.parse_args()
 
@@ -35,15 +36,14 @@ def get_user_choices():
         inquirer.List('different_alphabets', message='Use different alphabets for different bishops?', choices=['Yes', 'No'], default='No'),
         inquirer.Text('num_outputs', message="Number of outputs to generate [Default: 1]", default='1'),
         inquirer.List('rand_col', message='Use random background color from predefined palette?', choices=['Yes', 'No'], default='No'),
-        inquirer.List('sober', message='use a sober bishop?', choices=['Yes', 'No'], default='No')  # New question
+        inquirer.List('sober', message='use a sober bishop?', choices=['Yes', 'No'], default='No'),  # Existing question
+        inquirer.List('landscape', message='Produce output in landscape format?', choices=['Yes', 'No'], default='No')  # New question
     ]
     return inquirer.prompt(questions)
 
 # Predefined background colors in HEX
 PREDEFINED_COLORS = ["dc6900", "eb8c00", "e0301e", "a32020", "602320"]
 
-RoomWidth = 100
-RoomHeight = 80
 DefaultAlphabet = " .o+=*BOX@%&#/^"
 UnknownChar = '!'
 StartCode = 1000
@@ -176,11 +176,14 @@ bg_r, bg_g, bg_b = hex_to_rgb(bg_color_hex)
 term_bg = rgb_to_reportlab(bg_r, bg_g, bg_b)
 
 def write_to_pdf(room_string, filename_without_extension):
-    custom_page_size = (510, 680)  # Width x Height in points
+    if args.landscape:
+        custom_page_size = (820, 430)  # Width x Height in points for landscape
+    else:
+        custom_page_size = (515, 680)  # Width x Height in points for portrait
+
     c = canvas.Canvas(f"{filename_without_extension}.pdf", pagesize=custom_page_size)
     width, height = custom_page_size
-    
-    # Step 2: Use your terminal colors
+
     c.setFillColor(term_bg)
     c.rect(0, 0, width, height, fill=1)
     
@@ -201,6 +204,7 @@ def write_to_pdf(room_string, filename_without_extension):
 
     y = starting_y
     
+    # Adjust the way text is drawn
     for line in lines:
         c.drawString(x, y, line)
         y -= line_height  # Move down one line
@@ -216,7 +220,16 @@ if __name__ == "__main__":
         args.different_alphabets = user_choices['different_alphabets'] == 'Yes'
         args.num_outputs = int(user_choices['num_outputs'])
         args.rand_col = user_choices['rand_col'] == 'Yes'
-        args.sober = user_choices['sober'] == 'Yes'  # New line
+        args.sober = user_choices['sober'] == 'Yes'
+        args.landscape = user_choices['landscape'] == 'Yes'  
+
+    if args.landscape:
+        RoomWidth = 160  
+        RoomHeight = 50  
+    else:
+        RoomWidth = 100  
+        RoomHeight = 80 
+
 
     for _ in range(args.num_outputs):
         if args.rand_col:
