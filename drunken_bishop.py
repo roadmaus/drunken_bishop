@@ -42,9 +42,18 @@ def get_user_choices():
         inquirer.Text('num_outputs', message="Number of outputs to generate [Default: 1]", default='1'),
         inquirer.List('rand_col', message='Use random background color from predefined palette?', choices=['Yes', 'No'], default='No'),
         inquirer.List('sober', message='use a sober bishop?', choices=['Yes', 'No'], default='No'),  # Existing question
-        inquirer.List('landscape', message='Produce output in landscape format?', choices=['Yes', 'No'], default='No')  # New question
+        inquirer.List('landscape', message='Produce output in landscape format?', choices=['Yes', 'No'], default='No'),  # New question
+        inquirer.List('label', message='Add a label to the output?', choices=['No', 'Yes, random', 'Yes, custom'], default='No'),
     ]
-    return inquirer.prompt(questions)
+    answers = inquirer.prompt(questions)
+
+    if answers['label'] == 'Yes, custom':
+        custom_label_question = [
+            inquirer.Text('ulabel', message="Enter your custom label", validate=lambda _, x: x != ''),
+        ]
+        answers.update(inquirer.prompt(custom_label_question))
+
+    return answers
 
 # Predefined background colors in HEX
 PREDEFINED_COLORS = ["dc6900", "eb8c00", "e0301e", "a32020", "602320"]
@@ -256,7 +265,9 @@ if __name__ == "__main__":
         args.rand_col = user_choices['rand_col'] == 'Yes'
         args.sober = user_choices['sober'] == 'Yes'
         args.landscape = user_choices['landscape'] == 'Yes'  
-
+        args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
+        args.ulabel = user_choices['ulabel'] if 'ulabel' in user_choices else None
+        
     if args.landscape:
         RoomWidth = 160  
         RoomHeight = 50  
