@@ -43,13 +43,11 @@ python drunken_bishop.py
 #### drunken:
 
 ![Example_drunk](example.png)
----
 
 #### sober:
 
- ![Example_sober](example_sober.png)
+![Example_sober](example_sober.png)
 
----
 
 ### Advanced Usage
 
