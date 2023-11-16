@@ -14,7 +14,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import colors
 
 # Register the font (change the path and name accordingly)
-pdfmetrics.registerFont(TTFont('Mono', 'sono.ttf'))
+pdfmetrics.registerFont(TTFont('Mono', 'DejaVuSansMono.ttf'))
 
 # Argument Parsing
 parser = argparse.ArgumentParser(description='Generate random ASCII art pattern with multiple bishops.')
