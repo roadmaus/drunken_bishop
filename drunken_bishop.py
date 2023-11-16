@@ -14,7 +14,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import colors
 
 # Register the font (change the path and name accordingly)
-pdfmetrics.registerFont(TTFont('Mono', 'Menlo-Regular.ttf'))
+pdfmetrics.registerFont(TTFont('Mono', 'sono.ttf'))
 
 # Argument Parsing
 parser = argparse.ArgumentParser(description='Generate random ASCII art pattern with multiple bishops.')
@@ -34,7 +34,8 @@ def get_user_choices():
         inquirer.Text('max_bishops', message="Maximum number of bishops [Default: 10]", default='10'),
         inquirer.List('different_alphabets', message='Use different alphabets for different bishops?', choices=['Yes', 'No'], default='No'),
         inquirer.Text('num_outputs', message="Number of outputs to generate [Default: 1]", default='1'),
-        inquirer.List('rand_col', message='Use random background color from predefined palette?', choices=['Yes', 'No'], default='No')
+        inquirer.List('rand_col', message='Use random background color from predefined palette?', choices=['Yes', 'No'], default='No'),
+        inquirer.List('sober', message='use a sober bishop?', choices=['Yes', 'No'], default='No')  # New question
     ]
     return inquirer.prompt(questions)
 
@@ -215,6 +216,7 @@ if __name__ == "__main__":
         args.different_alphabets = user_choices['different_alphabets'] == 'Yes'
         args.num_outputs = int(user_choices['num_outputs'])
         args.rand_col = user_choices['rand_col'] == 'Yes'
+        args.sober = user_choices['sober'] == 'Yes'  # New line
 
     for _ in range(args.num_outputs):
         if args.rand_col:
