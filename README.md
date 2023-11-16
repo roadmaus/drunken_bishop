@@ -4,7 +4,7 @@
 
 ## Description
 
-This Python script generates random ASCII art patterns using multiple bishops with various customization options. It produces both text and PDF outputs with the ASCII patterns. The core algorithm of this project is based on the "drunken-bishop" algorithm,for visualizing SSH key fingerprints in OpenSSH. 
+This Python script generates random ASCII art patterns using multiple bishops with various customization options. It produces both text and PDF outputs with the ASCII patterns. The core algorithm of this project is based on the "drunken-bishop" algorithm for visualizing SSH key fingerprints in OpenSSH. 
 
 While this project was inspired by and includes modified code from Manfred Touron's implementation of the "drunken-bishop" algorithm, the original concept of the algorithm is attributed to Alexander von Gernler.
 
