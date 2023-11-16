@@ -89,7 +89,7 @@ DIRECTIONS = {
     "W": [0, -1]
 }
 
-def update_counter(filename, num_bishops, sober):
+def update_counter(filename, num_bishops, sober, random_bytes):
     counter_file = "counter.json"
     if os.path.exists(counter_file):
         with open(counter_file, "r") as f:
@@ -98,8 +98,9 @@ def update_counter(filename, num_bishops, sober):
         data = {"patterns": []}
 
     pattern_number = len(data["patterns"]) + 1
-    pattern_name = f"{filename}_bishops-{num_bishops}_sober-{sober}"
-    data["patterns"].append({"name": pattern_name, "number": pattern_number})
+    random_bytes_str = "".join(str(b) for b in random_bytes[:7])  # Only take the first 7 bytes
+    pattern_name = f"bishops-{num_bishops}_sober-{sober}_bytes-{random_bytes_str}"
+    data["patterns"].append({"name": f"{filename}_{pattern_name}", "number": pattern_number})
 
     with open(counter_file, "w") as f:
         json.dump(data, f, indent=4)
@@ -267,7 +268,10 @@ if __name__ == "__main__":
         args.landscape = user_choices['landscape'] == 'Yes'  
         args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
         args.ulabel = user_choices['ulabel'] if 'ulabel' in user_choices else None
-        
+
+    pattern_number = None  # Initialize pattern_number to None
+
+
     if args.landscape:
         RoomWidth = 160  
         RoomHeight = 50  
@@ -288,13 +292,14 @@ if __name__ == "__main__":
         filename_without_extension = write_to_file(room_string)
         
         # Generate label based on user input or auto-generation
-        if args.ulabel:  # User has provided a custom label
-            custom_label = args.ulabel
-            pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober)
-            banner_text = f"{custom_label} #{pattern_number}"
-        elif args.label:  # User wants an auto-generated label
-            pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober)
-            banner_text = f"{pattern_name} #{pattern_number}"
+        if args.label:
+            if args.ulabel:  # User has provided a custom label
+                custom_label = args.ulabel
+                pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
+                banner_text = f"{custom_label} #{pattern_number}"
+            else:  # User wants an auto-generated label
+                pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
+                banner_text = f"{pattern_name} #{pattern_number}"
         else:  # No label should be added
             banner_text = ""
 
