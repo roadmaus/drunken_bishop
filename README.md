@@ -39,10 +39,17 @@ python drunken_bishop.py
 ```
 
 ## Example output
-drunken:
+
+#### drunken:
+
 ![Example_drunk](example.png)
-sober:
-![Example_sober](example_sober.png)
+---
+
+#### sober:
+
+ ![Example_sober](example_sober.png)
+
+---
 
 ### Advanced Usage
 
