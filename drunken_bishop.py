@@ -1,4 +1,5 @@
 import os
+import json
 import random
 import inquirer 
 import argparse
@@ -15,6 +16,7 @@ from reportlab.lib import colors
 
 # Register the font (change the path and name accordingly)
 pdfmetrics.registerFont(TTFont('Mono', 'DejaVuSansMono.ttf'))
+pdfmetrics.registerFont(TTFont('UnifrakturMaguntia', 'UnifrakturMaguntia.ttf'))
 
 # Argument Parsing
 parser = argparse.ArgumentParser(description='Generate random ASCII art pattern with multiple bishops.')
@@ -26,6 +28,9 @@ parser.add_argument('--rand-col', action='store_true', help='Use random backgrou
 parser.add_argument('--I', action='store_true', help='Interactive mode')
 parser.add_argument('--sober', action='store_true', help='Generate a symmetrical pattern')
 parser.add_argument('--landscape', action='store_true', help='Produce output in landscape format')
+parser.add_argument('--label', action='store_true', help='Add auto-generated label to the output')
+parser.add_argument('--ulabel', type=str, help='User-defined label to be added to the output')
+
 
 args = parser.parse_args()
 
@@ -74,6 +79,23 @@ DIRECTIONS = {
     "S": [1, 0],
     "W": [0, -1]
 }
+
+def update_counter(filename, num_bishops, sober):
+    counter_file = "counter.json"
+    if os.path.exists(counter_file):
+        with open(counter_file, "r") as f:
+            data = json.load(f)
+    else:
+        data = {"patterns": []}
+
+    pattern_number = len(data["patterns"]) + 1
+    pattern_name = f"{filename}_bishops-{num_bishops}_sober-{sober}"
+    data["patterns"].append({"name": pattern_name, "number": pattern_number})
+
+    with open(counter_file, "w") as f:
+        json.dump(data, f, indent=4)
+
+    return pattern_name, pattern_number
 
 def from_bytes(input_bytes, num_bishops, sober=False):
     room = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]
@@ -136,7 +158,7 @@ def room_to_string(room, bishop_alphabets, bishop_tracker):
     output += "+" + "-" * RoomWidth + "+"
     return output
 
-def write_to_file(room_string):
+def write_to_file(room_string, banner_text=None):
     folder_name = "random_patterns"
     if not os.path.exists(folder_name):
         os.mkdir(folder_name)
@@ -148,8 +170,10 @@ def write_to_file(room_string):
     filename = f"{folder_name}/random_{i}"
     with open(f"{filename}.txt", "w") as f:
         f.write(room_string)
+        if banner_text:  
+            f.write("\n" + banner_text)
     
-    return filename  # Return filename without extension
+    return filename  
 
 def hex_to_rgb(hex_code):
     hex_code = hex_code.lstrip("#")
@@ -175,7 +199,7 @@ else:
 bg_r, bg_g, bg_b = hex_to_rgb(bg_color_hex)
 term_bg = rgb_to_reportlab(bg_r, bg_g, bg_b)
 
-def write_to_pdf(room_string, filename_without_extension):
+def write_to_pdf(room_string, filename_without_extension, banner_text):
     if args.landscape:
         custom_page_size = (820, 430)  # Width x Height in points for landscape
     else:
@@ -209,7 +233,17 @@ def write_to_pdf(room_string, filename_without_extension):
         c.drawString(x, y, line)
         y -= line_height  # Move down one line
 
+    # Add banner text at the bottom of the PDF
+    if banner_text:
+        c.setFont("UnifrakturMaguntia", 10)  # Adjust size as needed
+        text_width = pdfmetrics.stringWidth(banner_text, "UnifrakturMaguntia", 10)
+        text_x = (width - text_width) / 2
+        text_y = 5  # Adjust position as needed
+        
+        c.drawString(text_x, text_y, banner_text)
+
     c.save()
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
@@ -230,7 +264,6 @@ if __name__ == "__main__":
         RoomWidth = 100  
         RoomHeight = 80 
 
-
     for _ in range(args.num_outputs):
         if args.rand_col:
             bg_color_hex = random.choice(PREDEFINED_COLORS)
@@ -242,4 +275,17 @@ if __name__ == "__main__":
         room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops, args.sober)
         room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
         filename_without_extension = write_to_file(room_string)
-        write_to_pdf(room_string, filename_without_extension)
+        
+        # Generate label based on user input or auto-generation
+        if args.ulabel:  # User has provided a custom label
+            custom_label = args.ulabel
+            pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober)
+            banner_text = f"{custom_label} #{pattern_number}"
+        elif args.label:  # User wants an auto-generated label
+            pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober)
+            banner_text = f"{pattern_name} #{pattern_number}"
+        else:  # No label should be added
+            banner_text = ""
+
+        print(f"Generated pattern #{pattern_number}: {filename_without_extension}")
+        write_to_pdf(room_string, filename_without_extension, banner_text)
