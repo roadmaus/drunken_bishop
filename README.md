@@ -4,7 +4,7 @@
 
 ## Description
 
-This Python script generates random ASCII art patterns using multiple bishops with various customization options. It produces both text and PDF outputs with the ASCII patterns.
+This Python script generates random ASCII art patterns using multiple bishops with various customization options. It produces both text and PDF outputs with the ASCII patterns. This project was inspired by and includes modified code from Manfred Touron's "drunken-bishop" algorithm.
 
 ## Features
 
@@ -70,4 +70,4 @@ Feel free to fork the repository and submit pull requests. For any bugs or featu
 
 ## License
 
-This project is open-source and available under the MIT License.
+This project incorporates elements of Manfred Touron's "drunken-bishop" algorithm (https://github.com/moul/drunken-bishop). This work is licensed under the MIT License. See the LICENSE file for more details.
