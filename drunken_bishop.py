@@ -24,7 +24,7 @@ parser.add_argument('--different-alphabets', action='store_true', help='Use diff
 parser.add_argument('--num-outputs', type=int, default=1, help='Number of outputs to generate')
 parser.add_argument('--rand-col', action='store_true', help='Use random background color from predefined palette')
 parser.add_argument('--I', action='store_true', help='Interactive mode')
-
+parser.add_argument('--sober', action='store_true', help='Generate a symmetrical pattern')
 
 args = parser.parse_args()
 
@@ -74,7 +74,7 @@ DIRECTIONS = {
     "W": [0, -1]
 }
 
-def from_bytes(input_bytes, num_bishops):
+def from_bytes(input_bytes, num_bishops, sober=False):
     room = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]
     bishop_tracker = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]  # New array to track bishops
     
@@ -96,6 +96,12 @@ def from_bytes(input_bytes, num_bishops):
                 
                 room[pos[0]][pos[1]] += 1
                 bishop_tracker[pos[0]][pos[1]] = i  # Update tracker with the current bishop index
+
+                # If the sober flag is used, mirror the bishop's movements
+                if sober:
+                    mirror_pos = [pos[0], RoomWidth - 1 - pos[1]]
+                    room[mirror_pos[0]][mirror_pos[1]] += 1
+                    bishop_tracker[mirror_pos[0]][mirror_pos[1]] = i
     
     return room, bishop_alphabets, bishop_tracker
 
@@ -218,7 +224,7 @@ if __name__ == "__main__":
         
         num_bishops = random.randint(args.min_bishops, args.max_bishops)
         random_bytes = [random.randint(0, 255) for _ in range(200)]
-        room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops)
+        room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops, args.sober)
         room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
         filename_without_extension = write_to_file(room_string)
         write_to_pdf(room_string, filename_without_extension)
