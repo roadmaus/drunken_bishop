@@ -34,6 +34,7 @@ parser.add_argument('--landscape', action='store_true', help='Produce output in 
 parser.add_argument('--label', action='store_true', help='Add auto-generated label to the output')
 parser.add_argument('--ulabel', type=str, help='Specify a custom label for the output. For special characters (e.g., &, %%), enclose the label in quotes, like "Bishop&Bytes".')
 parser.add_argument('--alphabet', type=int, default=0, help='Choose the alphabet')
+parser.add_argument('--faces', action='store_true', help='Attract bishops towards the middle of the board, works best in conjunction with the --sober flag')
 parser.add_argument('--settings', action='store_true', help='Save settings to a file')
 parser.add_argument('--s', action='store_true', help='Load settings from a file')
 
@@ -47,8 +48,9 @@ def get_user_choices():
         inquirer.Text('num_outputs', message="Number of outputs to generate [Default: 1]", default='1'),
         inquirer.List('rand_col', message='Use random background color from predefined palette?', choices=['Yes', 'No'], default='No'),
         inquirer.List('rand_pleasing_col', message='Use a random pleasing color?', choices=['Yes', 'No'], default='No'),        
-        inquirer.List('sober', message='use a sober bishop?', choices=['Yes', 'No'], default='No'),  # Existing question
-        inquirer.List('landscape', message='Produce output in landscape format?', choices=['Yes', 'No'], default='No'),  # New question
+        inquirer.List('sober', message='use a sober bishop?', choices=['Yes', 'No'], default='No'), 
+        inquirer.List('faces', message='Attract bishops towards the middle of the board?', choices=['Yes', 'No'], default='No'),
+        inquirer.List('landscape', message='Produce output in landscape format?', choices=['Yes', 'No'], default='No'), 
         inquirer.List('label', message='Add a label to the output?', choices=['No', 'Yes, random', 'Yes, custom'], default='No'),
     ]
     answers = inquirer.prompt(questions)
@@ -149,7 +151,7 @@ def update_counter(filename, num_bishops, sober, random_bytes):
 
     return pattern_name, pattern_number
 
-def from_bytes(input_bytes, num_bishops, sober=False):
+def from_bytes(input_bytes, num_bishops, sober=False, faces=False):
     room = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]
     bishop_tracker = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]  # New array to track bishops
     
@@ -166,6 +168,24 @@ def from_bytes(input_bytes, num_bishops, sober=False):
         for i, pos in enumerate(bishop_positions):
             for bitpair in bitpairs:
                 direction = list(DIRECTIONS.keys())[int(bitpair, 2) % 8]
+                
+                # Add bias if --faces flag is used
+                if faces and random.random() < 0.2:  # 20% chance to apply bias
+                    if pos[0] < RoomHeight / 2:  # Bishop is in the upper half of the board
+                        if pos[1] < RoomWidth / 2:  # Bishop is in the left half of the board
+                            if direction in ['N', 'W', 'NW']:
+                                direction = random.choice(['S', 'E', 'SE'])  # Bias towards moving down and right
+                        else:  # Bishop is in the right half of the board
+                            if direction in ['N', 'E', 'NE']:
+                                direction = random.choice(['S', 'W', 'SW'])  # Bias towards moving down and left
+                    else:  # Bishop is in the lower half of the board
+                        if pos[1] < RoomWidth / 2:  # Bishop is in the left half of the board
+                            if direction in ['S', 'W', 'SW']:
+                                direction = random.choice(['N', 'E', 'NE'])  # Bias towards moving up and right
+                        else:  # Bishop is in the right half of the board
+                            if direction in ['S', 'E', 'SE']:
+                                direction = random.choice(['N', 'W', 'NW'])  # Bias towards moving up and left
+
                 dY, dX = DIRECTIONS[direction]
                 pos[0] += dY
                 pos[1] += dX
@@ -314,6 +334,7 @@ if __name__ == "__main__":
         args.rand_col = user_choices['rand_col'] == 'Yes'
         args.rand_pleasing_col = user_choices['rand_pleasing_col'] == 'Yes'
         args.sober = user_choices['sober'] == 'Yes'
+        args.faces = user_choices['faces'] == 'Yes'
         args.landscape = user_choices['landscape'] == 'Yes'
         args.alphabet = ALPHABETS.index(user_choices['alphabet']) if 'alphabet' in user_choices else 0
         args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
@@ -329,6 +350,7 @@ if __name__ == "__main__":
         args.rand_col = user_choices['rand_col'] == 'Yes'
         args.rand_pleasing_col = user_choices['rand_pleasing_col'] == 'Yes'
         args.sober = user_choices['sober'] == 'Yes'
+        args.faces = user_choices['faces'] == 'Yes'
         args.landscape = user_choices['landscape'] == 'Yes'
         args.alphabet = ALPHABETS.index(user_choices['alphabet']) if 'alphabet' in user_choices else 0
         args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
@@ -342,6 +364,7 @@ if __name__ == "__main__":
         args.rand_col = user_choices['rand_col'] == 'Yes'
         args.rand_pleasing_col = user_choices['rand_pleasing_col'] == 'Yes'
         args.sober = user_choices['sober'] == 'Yes'
+        args.faces = user_choices['faces'] == 'Yes'        
         args.landscape = user_choices['landscape'] == 'Yes'
         args.alphabet = ALPHABETS.index(user_choices['alphabet']) if 'alphabet' in user_choices else 0
         args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
@@ -371,7 +394,7 @@ if __name__ == "__main__":
 
         num_bishops = random.randint(args.min_bishops, args.max_bishops)
         random_bytes = [random.randint(0, 255) for _ in range(200)]
-        room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops, args.sober)
+        room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops, args.sober, args.faces)
         room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
         filename_without_extension = write_to_file(room_string)
 
