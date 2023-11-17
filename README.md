@@ -8,7 +8,6 @@ This Python script generates random ASCII art patterns using multiple bishops wi
 
 While this project was inspired by and includes modified code from Manfred Touron's implementation of the "drunken-bishop" algorithm, the original concept of the algorithm is attributed to Alexander von Gernler.
 
-
 ## Features
 
 - Customizable number of bishops
@@ -40,33 +39,41 @@ Here, the algorithm is no longer a tool for security visualization, but an instr
 
 The algorithm's elegance is in its fusion of simplicity and complexity, order and chaos. It demonstrates how algorithmic processes can transcend their original utilitarian purposes to inspire creative expression.
 
-
 ## Installation with Virtual Environment
 
 To ensure a clean and isolated environment for running the script, it's recommended to use a virtual environment. Here's how you can set it up:
 
 1. **Create a Virtual Environment:**
+   
    ```bash
    python -m venv venv
    ```
+   
    This command creates a new virtual environment named `venv` in your current directory.
 
 2. **Activate the Virtual Environment:**
+   
    - On Windows:
+     
      ```bash
      .\venv\Scripts\activate
      ```
+   
    - On macOS and Linux:
+     
      ```bash
      source venv/bin/activate
      ```
-   This step activates the virtual environment. You'll notice `(venv)` appears before your command prompt when it's active.
+     
+     This step activates the virtual environment. You'll notice `(venv)` appears before your command prompt when it's active.
 
 3. **Install Dependencies:**
    While the virtual environment is active, install the required packages:
+   
    ```bash
    pip install -r requirements.txt
    ```
+   
    This ensures all dependencies are installed within the `venv` and not globally.
 
 4. **Running the Script:**
@@ -74,6 +81,7 @@ To ensure a clean and isolated environment for running the script, it's recommen
 
 5. **Deactivating the Virtual Environment:**
    Once you're done, you can deactivate the virtual environment by typing:
+   
    ```bash
    deactivate
    ```
@@ -97,6 +105,93 @@ python drunken_bishop.py
 #### sober:
 
 ![Example_sober](example_sober.png)
+
+#### text output:
+
+```bash
++----------------------------------------------------------------------------------------------------+
+|!!!!⎨ ⎠⎤⎠⎫⎤⎧⎨⎠ ⎝⎠⎛⎡⎞⎠⎠⎞⎛⎛⎞⎞⎛⎛       ⎛⎠⎛⎡⎛⎞⎠ ⎠⎞⎛ ⎛⎛⎛⎛ ⎛⎞⎠ ⎠⎞⎛⎡⎛⎠⎛       ⎛⎛⎞⎞⎛⎛⎞⎠⎠⎞⎡⎛⎠⎝ ⎠⎨⎧⎤⎫⎠⎤⎠ ⎨!!!!|
+|!⎧⎫!⎬⎡⎧⎠⎬ ⎨⎨⎤⎠⎡⎡⎞⎝ ⎝⎠⎞⎛⎛⎛⎛⎛⎛⎞   ⎛  ⎛⎠⎛⎨⎛⎬⎞ ⎨⎛⎠   ⎝⎝   ⎠⎛⎨ ⎞⎬⎛⎨⎛⎠⎛  ⎛   ⎞⎛⎛⎛⎛⎛⎛⎞⎠⎝ ⎝⎞⎡⎡⎠⎤⎨⎨ ⎬⎠⎧⎡⎬!⎫⎧!|
+|⎨⎤⎧⎞⎧⎝⎬⎬⎞⎝⎧⎝⎛⎤⎞⎠⎝⎛⎞⎡⎠⎛ ⎛⎛⎛ ⎛ ⎞ ⎛ ⎛⎞ ⎛⎨ ⎧⎠⎞⎞⎞⎨ ⎛ ⎞⎞⎞⎞ ⎛ ⎨⎞⎞⎞⎠⎧ ⎨⎛ ⎞⎛ ⎛ ⎞ ⎛ ⎛⎛⎛ ⎛⎠⎡⎞⎛⎝⎠⎞⎤⎛⎝⎧⎝⎞⎬⎬⎝⎧⎞⎧⎤⎨|
+|⎤⎝ ⎨⎝⎧⎝⎠ ⎧⎡⎤⎠⎞⎝⎞⎛ ⎡⎠⎠⎛⎛⎛⎛     ⎞  ⎞⎛⎛⎞ ⎡⎛⎨ ⎤⎠ ⎤ ⎛⎞⎠⎠⎞⎛ ⎤ ⎠⎤ ⎨⎛⎡ ⎞⎛⎛⎞  ⎞     ⎛⎛⎛⎛⎠⎠⎡ ⎛⎞⎝⎞⎠⎤⎡⎧ ⎠⎝⎧⎝⎨ ⎝⎤|
+|⎡ ⎝⎝⎛⎝!⎝⎤⎡⎧⎞⎞ ⎠⎡⎠⎠⎞⎡⎠ ⎠         ⎞  ⎞ ⎞ ⎠ ⎤⎛⎛⎞⎞⎡⎝⎞⎝⎝⎞⎝⎡⎞⎞⎛⎛⎤ ⎠ ⎞ ⎞  ⎞         ⎠ ⎠⎡⎞⎠⎠⎡⎠ ⎞⎞⎧⎡⎤⎝!⎝⎛⎝⎝ ⎡|
+|⎡⎝ ⎞⎞⎠⎞⎧⎠⎬⎝⎬ ⎛⎛⎡⎡⎛⎝⎡⎝⎠ ⎛       ⎛    ⎞ ⎞ ⎝⎛ ⎛⎠ ⎛⎝⎝⎠⎠⎝⎝⎛ ⎠⎛ ⎛⎝ ⎞ ⎞    ⎛       ⎛ ⎠⎝⎡⎝⎛⎡⎡⎛⎛ ⎬⎝⎬⎠⎧⎞⎠⎞⎞ ⎝⎡|
+|⎬⎛⎝   ⎛ ⎫⎛⎤ ⎞ ⎞ ⎞⎝⎛⎠⎝⎛⎞             ⎛⎞ ⎠⎠⎛⎠⎞ ⎞⎛⎛⎝⎞⎞⎝⎛⎛⎞ ⎞⎠⎛⎠⎠ ⎞⎛             ⎞⎛⎝⎠⎛⎝⎞ ⎞ ⎞ ⎤⎛⎫ ⎛   ⎝⎛⎬|
+|⎝⎡ ⎛ ⎛ ⎞ ⎞ ⎞ ⎛ ⎠  ⎛⎡⎛⎝ ⎛           ⎞   ⎠⎞⎝⎞⎠⎝  ⎝⎛⎞⎞⎛⎝  ⎝⎠⎞⎝⎞⎠   ⎞           ⎛ ⎝⎛⎡⎛  ⎠ ⎛ ⎞ ⎞ ⎞ ⎛ ⎛ ⎡⎝|
+|⎨   ⎞ ⎛   ⎞ ⎠ ⎠ ⎛ ⎠ ⎤ ⎠ ⎛           ⎠ ⎨⎞⎠ ⎠⎠⎠⎞⎛ ⎞⎛⎛⎞ ⎛⎞⎠⎠⎠ ⎠⎞⎨ ⎠           ⎛ ⎠ ⎤ ⎠ ⎛ ⎠ ⎠ ⎞   ⎛ ⎞   ⎨|
+|⎝⎠ ⎞ ⎞   ⎠ ⎛ ⎠ ⎝ ⎛ ⎝ ⎨ ⎝ ⎤ ⎞       ⎛ ⎧⎞⎬⎛⎞⎛⎡⎛⎞ ⎛ ⎞⎞ ⎛ ⎞⎛⎡⎛⎞⎛⎬⎞⎧ ⎛       ⎞ ⎤ ⎝ ⎨ ⎝ ⎛ ⎝ ⎠ ⎛ ⎠   ⎞ ⎞ ⎠⎝|
+|⎡⎛⎠ ⎞ ⎞ ⎠ ⎞ ⎛ ⎞ ⎝ ⎠ ⎨ ⎤ ! ⎤ ⎝       ⎨⎝⎨⎛⎡ ⎡⎛⎞ ⎞⎞⎛⎛⎛⎛⎞⎞ ⎞⎛⎡ ⎡⎛⎨⎝⎨       ⎝ ⎤ ! ⎤ ⎨ ⎠ ⎝ ⎞ ⎛ ⎞ ⎠ ⎞ ⎞ ⎠⎛⎡|
+|⎞⎞ ⎛ ⎞ ⎝ ⎠   ⎠ ⎠ ⎡ ⎨ ⎬ ⎤ ! ⎡ ⎠     ⎠⎞⎡⎞⎝ ⎡⎞⎠ ⎞⎛⎞⎠  ⎠⎞⎛⎞ ⎠⎞⎡ ⎝⎞⎡⎞⎠     ⎠ ⎡ ! ⎤ ⎬ ⎨ ⎡ ⎠ ⎠   ⎠ ⎝ ⎞ ⎛ ⎞⎞|
+|⎞   ⎞ ⎛ ⎞ ⎠ ⎝ ⎡ ⎝ ⎤ ⎨ ⎨ ⎬ ! ⎤ ⎞     ⎡⎛⎫ ⎠⎛⎞⎛⎛ ⎠⎛⎛⎛⎛⎛⎛⎠ ⎛⎛⎞⎛⎠ ⎫⎛⎡     ⎞ ⎤ ! ⎬ ⎨ ⎨ ⎤ ⎝ ⎡ ⎝ ⎠ ⎞ ⎛ ⎞   ⎞|
+| ⎞ ⎞ ⎞   ⎝ ⎛ ⎝ ⎡ ⎡ ⎠ ⎧ ⎤ ! ! ⎞ ⎞   ⎞⎞⎨ ⎨⎛⎠ ⎠ ⎞ ⎞ ⎛⎛ ⎞ ⎞ ⎠ ⎠⎛⎨ ⎨⎞⎞   ⎞ ⎞ ! ! ⎤ ⎧ ⎠ ⎡ ⎡ ⎝ ⎛ ⎝   ⎞ ⎞ ⎞ |
+|  ⎞ ⎞ ⎛ ⎞ ⎞ ⎠ ⎠ ⎡ ⎝ ⎡ ! ! ! !   ⎞ ⎞ ⎡⎞⎡⎛⎤ ⎤ ⎝ ⎞ ⎞⎞⎞⎞ ⎞ ⎝ ⎤ ⎤⎛⎡⎞⎡ ⎞ ⎞   ! ! ! ! ⎡ ⎝ ⎡ ⎠ ⎠ ⎞ ⎞ ⎛ ⎞ ⎞  |
+|     ⎛ ⎞ ⎠ ⎛ ⎡ ⎞ ⎨ ⎝ ⎨ ! ! ! ⎤   ⎞ ⎡⎛⎠ ⎡⎛⎝ ⎡ ⎡ ⎠⎛⎠⎠⎛⎠ ⎡ ⎡ ⎝⎛⎡ ⎠⎛⎡ ⎞   ⎤ ! ! ! ⎨ ⎝ ⎨ ⎞ ⎡ ⎛ ⎠ ⎞ ⎛     |
+|        ⎞ ⎛ ⎞ ⎝ ⎡ ⎤ ⎝ ⎨ ! ! ! ⎞   ⎛ ⎛⎛⎛⎞⎞ ⎠ ⎠ ⎞ ⎠  ⎠ ⎞ ⎠ ⎠ ⎞⎞⎛⎛⎛ ⎛   ⎞ ! ! ! ⎨ ⎝ ⎤ ⎡ ⎝ ⎞ ⎛ ⎞        |
+|         ⎛   ⎛ ⎤ ⎤ ⎝ ⎫ ⎡ ! ! ⎝ ⎞    ⎛ ⎞ ⎞⎛     ⎞    ⎞     ⎛⎞ ⎞ ⎛    ⎞ ⎝ ! ! ⎡ ⎫ ⎝ ⎤ ⎤ ⎛   ⎛         |
+|            ⎞ ⎡ ⎡ ⎝ ⎨ ! ! ! ! ⎞ ⎞  ⎞ ⎞ ⎛ ⎛      ⎛  ⎛      ⎛ ⎛ ⎞ ⎞  ⎞ ⎞ ! ! ! ! ⎨ ⎝ ⎡ ⎡ ⎞            |
+|           ⎛ ⎝ ⎡ ⎡ ⎬ ⎫ ! ! ⎫ ⎬ ⎛ ⎛  ⎞ ⎛ ⎛                  ⎛ ⎛ ⎞  ⎛ ⎛ ⎬ ⎫ ! ! ⎫ ⎬ ⎡ ⎡ ⎝ ⎛           |
+|            ⎛ ⎛ ⎝ ⎡ ⎝ ⎤ ⎬ ! ⎤ ⎛        ⎛                    ⎛        ⎛ ⎤ ! ⎬ ⎤ ⎝ ⎡ ⎝ ⎛ ⎛            |
+|       ⎞       ⎛ ⎝ ⎞ ⎝ ⎝ ⎫ ! ⎞                                        ⎞ ! ⎫ ⎝ ⎝ ⎞ ⎝ ⎛       ⎞       |
+|      ⎞ ⎛     ⎞ ⎠ ⎞ ⎡ ⎬ ⎨ ⎨ ⎨ ⎞                                      ⎞ ⎨ ⎨ ⎨ ⎬ ⎡ ⎞ ⎠ ⎞     ⎛ ⎞      |
+|     ⎛ ⎛     ⎛ ⎠ ⎠ ⎤ ⎨ ⎡ ⎨ ⎝ ⎡ ⎛                                    ⎛ ⎡ ⎝ ⎨ ⎡ ⎨ ⎤ ⎠ ⎠ ⎛     ⎛ ⎛     |
+|    ⎠ ⎛         ⎠ ⎞ ⎠ ⎝ ⎝ ⎠ ⎠ ⎛                                      ⎛ ⎠ ⎠ ⎝ ⎝ ⎠ ⎞ ⎠         ⎛ ⎠    |
+|   ⎠ ⎞           ⎞   ⎛ ⎛ ⎞ ⎤                                            ⎤ ⎞ ⎛ ⎛   ⎞           ⎞ ⎠   |
+|  ⎛ ⎠           ⎛     ⎞ ⎛ ⎞ ⎠                                          ⎠ ⎞ ⎛ ⎞     ⎛           ⎠ ⎛  |
+| ⎛ ⎞ ⎛               ⎛ ⎛ ⎞ ⎞                                            ⎞ ⎞ ⎛ ⎛               ⎛ ⎞ ⎛ |
+|⎛ ⎛ ⎛                   ⎠ ⎞ ⎠                                          ⎠ ⎞ ⎠                   ⎛ ⎛ ⎛|
+| ⎞   ⎛                 ⎛ ⎞ ⎝ ⎞                                        ⎞ ⎝ ⎞ ⎛                 ⎛   ⎞ |
+|⎛ ⎛   ⎛ ⎛               ⎞ ⎛ ⎠                                          ⎠ ⎛ ⎞               ⎛ ⎛   ⎛ ⎛|
+|⎛      ⎞                 ⎠ ⎛                                            ⎛ ⎠                 ⎞      ⎛|
+|⎛       ⎛               ⎞ ⎞ ⎛                                          ⎛ ⎞ ⎞               ⎛       ⎛|
+| ⎛ ⎛   ⎠               ⎛ ⎛ ⎞ ⎞                                        ⎞ ⎞ ⎛ ⎛               ⎠   ⎛ ⎛ |
+|  ⎞   ⎛ ⎤               ⎛ ⎛ ⎞                                          ⎞ ⎛ ⎛               ⎤ ⎛   ⎞  |
+|   ⎛   ⎞ ⎝ ⎛             ⎛                                                ⎛             ⎛ ⎝ ⎞   ⎛   |
+|  ⎠     ⎛ ⎛ ⎞ ⎠                                                                      ⎠ ⎞ ⎛ ⎛     ⎠  |
+| ⎛ ⎤       ⎡ ⎝ ⎠                                                                    ⎠ ⎝ ⎡       ⎤ ⎛ |
+|  ⎞ ⎝ ⎛   ⎞ ⎝ ⎞ ⎠                                                                  ⎠ ⎞ ⎝ ⎞   ⎛ ⎝ ⎞  |
+|   ⎛ ⎞ ⎝ ⎨ ⎡   ⎝ ⎛                                                                ⎛ ⎝   ⎡ ⎨ ⎝ ⎞ ⎛   |
+|      ⎬ ⎬ ⎫ ⎡ ⎞ ⎠                                                                  ⎠ ⎞ ⎡ ⎫ ⎬ ⎬      |
+|     ⎞ ⎡ ⎫ ⎨ ⎠ ⎡                                                                    ⎡ ⎠ ⎨ ⎫ ⎡ ⎞     |
+|⎞⎞⎛⎠⎞ ⎞ ⎠ ⎬ ⎞ ⎨ ⎝                                                                  ⎝ ⎨ ⎞ ⎬ ⎠ ⎞ ⎞⎠⎛⎞⎞|
+|⎞⎞⎝⎠⎞⎞ ⎠ ⎞ ⎬ ⎠ ⎬ ⎞ ⎛ ⎛                                                        ⎛ ⎛ ⎞ ⎬ ⎠ ⎬ ⎞ ⎠ ⎞⎞⎠⎝⎞⎞|
+| ⎠⎛ ⎝⎛⎝ ⎞ ⎤ ⎡ ⎝ ⎡ ⎞ ⎛ ⎛                                                      ⎛ ⎛ ⎞ ⎡ ⎝ ⎡ ⎤ ⎞ ⎝⎛⎝ ⎛⎠ |
+|⎞  ⎛ ⎝⎞⎛⎞⎡ ⎞ ⎝ ⎠ ⎠ ⎛ ⎛                                                        ⎛ ⎛ ⎠ ⎠ ⎝ ⎞ ⎡⎞⎛⎞⎝ ⎛  ⎞|
+|      ⎡⎠⎠⎞⎡⎛ ⎛⎛ ⎛ ⎞ ⎞ ⎛                                                      ⎛ ⎞ ⎞ ⎛ ⎛⎛ ⎛⎡⎞⎠⎠⎡      |
+|     ⎛ ⎡⎛⎝⎞⎝⎛ ⎛  ⎛ ⎛ ⎞                                                        ⎞ ⎛ ⎛  ⎛ ⎛⎝⎞⎝⎛⎡ ⎛     |
+|        ⎝⎞⎠⎛⎛⎛  ⎞   ⎛ ⎛ ⎛                                                  ⎛ ⎛ ⎛   ⎞  ⎛⎛⎛⎠⎞⎝        |
+|         ⎛⎞⎛⎞ ⎛⎛ ⎛ ⎛   ⎞                     ⎛⎛⎛⎞  ⎞⎛⎛⎛                     ⎞   ⎛ ⎛ ⎛⎛ ⎞⎛⎞⎛         |
+|         ⎛ ⎛ ⎞    ⎞     ⎞   ⎛                 ⎝⎠ ⎠⎠ ⎠⎝                 ⎛   ⎞     ⎞    ⎞ ⎛ ⎛         |
+|        ⎞   ⎛ ⎛ ⎛  ⎛   ⎛ ⎞ ⎛ ⎛   ⎛   ⎛ ⎛     ⎞⎞⎞⎝⎛⎛⎝⎞⎞⎞     ⎛ ⎛   ⎛   ⎛ ⎛ ⎞ ⎛   ⎛  ⎛ ⎛ ⎛   ⎞        |
+|       ⎛ ⎛ ⎛   ⎞          ⎞   ⎛ ⎛ ⎛ ⎛⎛⎞⎛   ⎞⎛⎞⎠⎝ ⎡⎡ ⎝⎠⎞⎛⎞   ⎛⎞⎛⎛ ⎛ ⎛ ⎛   ⎞          ⎞   ⎛ ⎛ ⎛       |
+|          ⎞     ⎞   ⎛          ⎞   ⎞ ⎛⎝  ⎞⎠⎠⎝⎞⎞ ⎝⎠⎠⎝ ⎞⎞⎝⎠⎠⎞  ⎝⎛ ⎞   ⎞          ⎛   ⎞     ⎞          |
+|           ⎛   ⎛ ⎞ ⎛ ⎛   ⎛   ⎛ ⎛⎞ ⎞ ⎞⎞ ⎞⎠⎠⎛⎧⎠⎤ ⎝⎛⎛⎛⎛⎝ ⎤⎠⎧⎛⎠⎠⎞ ⎞⎞ ⎞ ⎞⎛ ⎛   ⎛   ⎛ ⎛ ⎞ ⎛   ⎛           |
+|                  ⎞   ⎛ ⎛ ⎛ ⎛ ⎞  ⎞ ⎞⎛⎛⎠⎞⎝⎞!⎛! ⎡⎞⎠⎞⎞⎠⎞⎡ !⎛!⎞⎝⎞⎠⎛⎛⎞ ⎞  ⎞ ⎛ ⎛ ⎛ ⎛   ⎞                  |
+|                       ⎞   ⎞ ⎛   ⎞ ⎠⎛⎞⎞⎠⎠⎬ !⎞⎨ ⎡⎡⎞⎞⎡⎡ ⎨⎞! ⎬⎠⎠⎞⎞⎛⎠ ⎞   ⎛ ⎞   ⎞                       |
+|                        ⎞ ⎞ ⎞   ⎠ ⎛ ⎠ ⎞⎞⎨⎛!⎛!⎠⎫⎝⎫⎡⎡⎫⎝⎫⎠!⎛!⎛⎨⎞⎞ ⎠ ⎛ ⎠   ⎞ ⎞ ⎞                        |
+|                         ⎞ ⎞ ⎛ ⎞ ⎞ ⎛ ⎞ ⎝⎛! !⎛⎤⎡!⎬⎬⎬⎬!⎡⎤⎛! !⎛⎝ ⎞ ⎛ ⎞ ⎞ ⎛ ⎞ ⎞                         |
+|                            ⎛ ⎞ ⎠   ⎝   ! !⎞!⎠!⎤!⎨⎨!⎤!⎠!⎞! !   ⎝   ⎠ ⎞ ⎛                            |
+|                               ⎞ ⎛ ⎞ ⎠ ⎨ ⎫⎛⎨⎠!⎝⎧⎬!!⎬⎧⎝!⎠⎨⎛⎫ ⎨ ⎠ ⎞ ⎛ ⎞                               |
+|                                ⎛   ⎛ ⎡ ⎫ !⎛!⎠⎝⎠!!!!⎠⎝⎠!⎛! ⎫ ⎡ ⎛   ⎛                                |
+|                                   ⎞ ⎠ ⎡ ⎫ ⎧⎞⎧⎛⎧⎫!!⎫⎧⎛⎧⎞⎧ ⎫ ⎡ ⎠ ⎞                                   |
+|                                  ⎛ ⎠ ⎝ ⎨ ⎨⎛⎧⎞!⎡⎫⎬⎬⎫⎡!⎞⎧⎛⎨ ⎨ ⎝ ⎠ ⎛                                  |
+|                                   ⎛ ⎞ ⎤ ⎤ ⎬⎛⎤⎠!⎬!!⎬!⎠⎤⎛⎬ ⎤ ⎤ ⎞ ⎛                                   |
+|                                      ⎞ ⎠ ⎡ ⎤ ⎨⎡!⎫⎫!⎡⎨ ⎤ ⎡ ⎠ ⎞                                      |
+|                                     ⎞ ⎞ ⎤ ⎡ ⎨⎞⎬⎨⎡⎡⎨⎬⎞⎨ ⎡ ⎤ ⎞ ⎞                                     |
+|                                    ⎛ ⎠ ⎡ ⎨ ⎡⎛⎤⎤⎨⎠⎠⎨⎤⎤⎛⎡ ⎨ ⎡ ⎠ ⎛                                    |
+|                                       ⎠ ⎠ ⎠ ⎝⎛⎝⎛⎠⎠⎛⎝⎛⎝ ⎠ ⎠ ⎠                                       |
+|                                        ⎝   ⎛ ⎛ ⎛⎝⎝⎛ ⎛ ⎛   ⎝                                        |
+|                                       ⎛ ⎞ ⎛    ⎞⎞⎞⎞    ⎛ ⎞ ⎛                                       |
+|                                        ⎛   ⎛    ⎛⎛    ⎛   ⎛                                        |
+|                                         ⎛ ⎞    ⎞  ⎞    ⎞ ⎛                                         |
+|                                        ⎛ ⎞⎛⎞    ⎞⎞    ⎞⎛⎞ ⎛                                        |
+|                                       ⎞ ⎞⎛⎛⎛⎛  ⎛  ⎛  ⎛⎛⎛⎛⎞ ⎞                                       |
+|                                        ⎞ ⎛ ⎛⎛  ⎛⎛⎛⎛  ⎛⎛ ⎛ ⎞                                        |
+|                                           ⎛⎛  ⎛⎛⎞⎞⎛⎛  ⎛⎛                                           |
+|                                             ⎞⎛⎞ ⎞⎞ ⎞⎛⎞                                             |
+|                                            ⎛ ⎛⎛⎞  ⎞⎛⎛ ⎛                                            |
+|                                               ⎠⎝⎛⎛⎝⎠                                               |
++----------------------------------------------------------------------------------------------------+
+```
 
 ### Advanced Usage
 
