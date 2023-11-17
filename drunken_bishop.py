@@ -53,17 +53,17 @@ def get_user_choices():
     ]
     answers = inquirer.prompt(questions)
 
-    if not answers['different_alphabets'] == 'Yes':
-        alphabet_question = [
-            inquirer.List('alphabet', message='Choose the alphabet', choices=ALPHABETS, default=ALPHABETS[0]),
-        ]
-        answers.update(inquirer.prompt(alphabet_question))
-
     if answers['label'] == 'Yes, custom':
         custom_label_question = [
             inquirer.Text('ulabel', message="Enter your custom label", validate=lambda _, x: x != ''),
         ]
         answers.update(inquirer.prompt(custom_label_question))
+        
+    if not answers['different_alphabets'] == 'Yes':
+        alphabet_question = [
+            inquirer.List('alphabet', message='Choose the alphabet', choices=ALPHABETS, default=ALPHABETS[0]),
+        ]
+        answers.update(inquirer.prompt(alphabet_question))
 
     return answers
 
@@ -71,7 +71,6 @@ def get_user_choices():
 PREDEFINED_COLORS = ["dc6900", "eb8c00", "e0301e", "a32020", "602320"]
 
 DefaultAlphabet = " .o+=*BOX@%&#/^"
-#DefaultAlphabet = "01"
 UnknownChar = '!'
 StartCode = 1000
 EndCode = 2000
