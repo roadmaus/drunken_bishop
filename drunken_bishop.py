@@ -411,11 +411,11 @@ if __name__ == "__main__":
         else:  # No label should be added
             banner_text = ""
 
+        write_to_pdf(room_string, filename_without_extension, banner_text)
+        #if i == 0:  # Only print the preview for the first pattern
+        print("Preview")
+        print(room_string)
         print(f"Generated pattern #{pattern_number}: {filename_without_extension}")
         print(f"Number of bishops: {num_bishops}")
         print(f"Sobriety status: {'Sober' if args.sober else 'Drunk'}")
-        print(f"Input bytes (truncated): {random_bytes[:10]}...")  
-        write_to_pdf(room_string, filename_without_extension, banner_text)
-        if i == 0:  # Only print the preview for the first pattern
-            print("Preview")
-            print(room_string)
+        print(f"Input bytes (truncated): {random_bytes[:10]}...")      
