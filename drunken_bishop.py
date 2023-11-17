@@ -102,6 +102,8 @@ DIRECTIONS = {
     "W": [0, -1]
 }
 
+max_visits = len(ALPHABETS) - 1  # Maximum number of visits to a cell
+
 def load_settings():
     with open('settings.json', 'r') as f:
         return json.load(f)
@@ -146,7 +148,11 @@ def from_bytes(input_bytes, num_bishops, sober=False):
     bishop_tracker = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]  # New array to track bishops
     
     bishop_positions = [[random.randint(0, RoomHeight - 1), random.randint(0, RoomWidth - 1)] for _ in range(num_bishops)]
-    bishop_alphabets = [ALPHABETS[args.alphabet] for _ in range(num_bishops)]    
+    if args.different_alphabets:
+        bishop_alphabets = [random.choice(ALPHABETS) for _ in range(num_bishops)]
+    else:
+        bishop_alphabets = [ALPHABETS[args.alphabet] for _ in range(num_bishops)]  
+
     for byte in input_bytes:
         bits = format(byte, '08b')
         bitpairs = [bits[i:i+2] for i in range(0, 8, 2)]
@@ -159,14 +165,17 @@ def from_bytes(input_bytes, num_bishops, sober=False):
                 pos[1] += dX
                 pos[0] = max(0, min(RoomHeight - 1, pos[0]))
                 pos[1] = max(0, min(RoomWidth - 1, pos[1]))
-                
-                room[pos[0]][pos[1]] += 1
+
+                # Only increment the count if it's less than max_visits
+                if room[pos[0]][pos[1]] < max_visits:
+                    room[pos[0]][pos[1]] += 1
                 bishop_tracker[pos[0]][pos[1]] = i  # Update tracker with the current bishop index
 
                 # If the sober flag is used, mirror the bishop's movements
                 if sober:
                     mirror_pos = [pos[0], RoomWidth - 1 - pos[1]]
-                    room[mirror_pos[0]][mirror_pos[1]] += 1
+                    if room[mirror_pos[0]][mirror_pos[1]] < max_visits:
+                        room[mirror_pos[0]][mirror_pos[1]] += 1
                     bishop_tracker[mirror_pos[0]][mirror_pos[1]] = i
     
     return room, bishop_alphabets, bishop_tracker
@@ -306,6 +315,7 @@ if __name__ == "__main__":
     elif args.settings:
         user_choices = get_user_choices()
         save_settings(user_choices)
+        print("settings saved. to run this code with your saved settings, use --s flag")
         args.min_bishops = int(user_choices['min_bishops'])
         args.max_bishops = int(user_choices['max_bishops'])
         args.different_alphabets = user_choices['different_alphabets'] == 'Yes'
@@ -342,7 +352,7 @@ if __name__ == "__main__":
         RoomWidth = 100  
         RoomHeight = 80 
 
-    for _ in range(args.num_outputs):
+    for i in range(args.num_outputs):
         if args.rand_col:
             bg_color_hex = random.choice(PREDEFINED_COLORS)
         elif args.rand_pleasing_col:
@@ -374,6 +384,6 @@ if __name__ == "__main__":
 
         print(f"Generated pattern #{pattern_number}: {filename_without_extension}")
         write_to_pdf(room_string, filename_without_extension, banner_text)
-        if args.num_outputs < 2 or len(sys.argv) == 1:
+        if i == 0:  # Only print the preview for the first pattern
             print("Preview")
             print(room_string)
