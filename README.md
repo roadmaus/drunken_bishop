@@ -108,7 +108,7 @@ python drunken_bishop.py
 
 #### text output:
 
-[Click here to view the example](https://raw.githubusercontent.com/roadmaus/drunken_bishop/main/examples/random_112.txt){:target="_blank"}
+[Click here to view the example](https://raw.githubusercontent.com/roadmaus/drunken_bishop/main/examples/random_112.txt)
 
 
 ### Advanced Usage
