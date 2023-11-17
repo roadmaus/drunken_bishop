@@ -14,22 +14,6 @@ While this project was inspired by and includes modified code from Manfred Touro
 - Optional use of different alphabets for different bishops
 - Output in `.txt` and `.pdf` formats
 
-## Dependencies
-
-- `os`
-- `random`
-- `argparse`
-- `unicodedata`
-- `PIL`
-- `pandas`
-- `reportlab`
-
-You can install the required third-party packages using pip:
-
-```bash
-pip install -r requirements.txt
-```
-
 ## About the Drunken Bishop Algorithm
 
 The "drunken-bishop" algorithm, initially devised for visualizing SSH key fingerprints in OpenSSH, represents a sophisticated approach to rendering complex data into an accessible, visual format. This algorithm emerged not merely as a whimsical method, but as a robust means to depict the inherent randomness and uniqueness of SSH keys.
@@ -39,17 +23,53 @@ Here, the algorithm is no longer a tool for security visualization, but an instr
 
 The algorithm's elegance is in its fusion of simplicity and complexity, order and chaos. It demonstrates how algorithmic processes can transcend their original utilitarian purposes to inspire creative expression.
 
+## Cloning the Repository
+
+Before setting up the virtual environment, you first need to clone the repository to your local machine. Here's how to do it:
+
+1. **Open Terminal or Command Prompt**: Navigate to the directory where you want to clone the repository.
+
+2. **Clone the Repository**: Use the following command to clone the repository:
+
+   ```bash
+   git clone https://github.com/roadmaus/drunken_bishop.git
+   ```
+
+   This command will create a copy of the `drunken_bishop` repository in your current directory.
+
+3. **Navigate to the Repository Directory**: After cloning, move into the repository directory:
+
+   ```bash
+   cd drunken_bishop
+   ```
+
+With the repository successfully cloned, you're ready to set up the virtual environment as described in the next section.
+
+
 ## Installation with Virtual Environment
 
 To ensure a clean and isolated environment for running the script, it's recommended to use a virtual environment. Here's how you can set it up:
 
 1. **Create a Virtual Environment:**
-   
-   ```bash
-   python -m venv venv
-   ```
-   
-   This command creates a new virtual environment named `venv` in your current directory.
+
+   Depending on your operating system, the command to create a virtual environment might differ slightly:
+
+   - On **macOS and Linux**:
+
+     ```bash
+     python3 -m venv venv
+     ```
+
+     This command creates a new virtual environment named `venv` in your current directory using Python 3.
+
+   - On **Windows**:
+
+     ```bash
+     python -m venv venv
+     ```
+
+     If you have both Python 2 and Python 3 installed, replace `python` with `python3` to ensure that Python 3 is used.
+
 
 2. **Activate the Virtual Environment:**
    
