@@ -201,7 +201,39 @@ To customize the number of bishops, different alphabets, and other settings:
 python drunken_bishop.py --min-bishops 4 --max-bishops 20 --different-alphabets --num-outputs 12 --rand-col --sober --landscape 
 ```
 
-or use the **--I** flag for an Interactive version of this Script
+### Interactive Mode and Settings
+
+#### Interactive Mode
+
+To use the program interactively, enabling easy customization of various settings like the number of bishops, alphabets, and color schemes, use the `--I` flag:
+
+```bash
+python drunken_bishop.py --I
+```
+
+This initiates an interactive session with a series of questions, allowing you to tailor the ASCII art generation according to your preferences. Options include:
+
+- Minimum and maximum number of bishops
+- Choice of using different alphabets for different bishops
+- Output aesthetics like color schemes and format
+
+#### Settings File
+
+The program supports saving and loading settings from a file for consistent usage across sessions. 
+
+- **Save Settings**: Use the `--settings` flag to save your current settings to a file.
+  
+  ```bash
+  python drunken_bishop.py --settings
+  ```
+
+- **Load Settings**: Use the `--s` flag to load settings from an existing file.
+  
+  ```bash
+  python drunken_bishop.py --s
+  ```
+
+This feature is particularly useful for maintaining consistent preferences and quickly reproducing favorite configurations.
 
 ### Help Menu
 
