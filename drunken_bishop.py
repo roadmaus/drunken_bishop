@@ -328,3 +328,5 @@ if __name__ == "__main__":
 
         print(f"Generated pattern #{pattern_number}: {filename_without_extension}")
         write_to_pdf(room_string, filename_without_extension, banner_text)
+        if args.num_outputs < 2 or len(sys.argv) == 1:
+            print(room_string)
