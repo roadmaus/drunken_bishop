@@ -33,7 +33,9 @@ parser.add_argument('--sober', action='store_true', help='Generate a symmetrical
 parser.add_argument('--landscape', action='store_true', help='Produce output in landscape format')
 parser.add_argument('--label', action='store_true', help='Add auto-generated label to the output')
 parser.add_argument('--ulabel', type=str, help='Specify a custom label for the output. For special characters (e.g., &, %%), enclose the label in quotes, like "Bishop&Bytes".')
-
+parser.add_argument('--alphabet', type=int, default=0, help='Choose the alphabet')
+parser.add_argument('--settings', action='store_true', help='Save settings to a file')
+parser.add_argument('--s', action='store_true', help='Load settings from a file')
 
 args = parser.parse_args()
 
@@ -51,6 +53,12 @@ def get_user_choices():
     ]
     answers = inquirer.prompt(questions)
 
+    if not answers['different_alphabets'] == 'Yes':
+        alphabet_question = [
+            inquirer.List('alphabet', message='Choose the alphabet', choices=ALPHABETS, default=ALPHABETS[0]),
+        ]
+        answers.update(inquirer.prompt(alphabet_question))
+
     if answers['label'] == 'Yes, custom':
         custom_label_question = [
             inquirer.Text('ulabel', message="Enter your custom label", validate=lambda _, x: x != ''),
@@ -63,6 +71,7 @@ def get_user_choices():
 PREDEFINED_COLORS = ["dc6900", "eb8c00", "e0301e", "a32020", "602320"]
 
 DefaultAlphabet = " .o+=*BOX@%&#/^"
+#DefaultAlphabet = "01"
 UnknownChar = '!'
 StartCode = 1000
 EndCode = 2000
@@ -77,10 +86,10 @@ ALPHABETS = [
     " abcdefghijklmn",
     " ↑↗→↘↓↙←↖",
     " ▁▂▃▄▅▆▇█",
-    " ○◔◑◕●"
+    " ○◔◑◕●",
+    " 01",
+    "01"
 ]
-
-
 
 DIRECTIONS = {
     "NW": [-1, -1],
@@ -93,6 +102,14 @@ DIRECTIONS = {
     "W": [0, -1]
 }
 
+def load_settings():
+    with open('settings.json', 'r') as f:
+        return json.load(f)
+    
+def save_settings(settings):
+    with open('settings.json', 'w') as f:
+        json.dump(settings, f, indent=4)
+        
 def generate_pleasing_color():
     hue = random.random()  # Generates a random number between 0 and 1
     saturation = 0.9  # Set saturation to 90%
@@ -129,8 +146,7 @@ def from_bytes(input_bytes, num_bishops, sober=False):
     bishop_tracker = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]  # New array to track bishops
     
     bishop_positions = [[random.randint(0, RoomHeight - 1), random.randint(0, RoomWidth - 1)] for _ in range(num_bishops)]
-    bishop_alphabets = [random.choice(ALPHABETS) for _ in range(num_bishops)] if args.different_alphabets else [DefaultAlphabet for _ in range(num_bishops)]
-    
+    bishop_alphabets = [ALPHABETS[args.alphabet] for _ in range(num_bishops)]    
     for byte in input_bytes:
         bits = format(byte, '08b')
         bitpairs = [bits[i:i+2] for i in range(0, 8, 2)]
@@ -270,10 +286,38 @@ def write_to_pdf(room_string, filename_without_extension, banner_text):
         c.drawString(text_x, text_y, banner_text)
 
     c.save()
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
-    if args.I:
+    if args.s:
+        user_choices = load_settings()
+        args.min_bishops = int(user_choices['min_bishops'])
+        args.max_bishops = int(user_choices['max_bishops'])
+        args.different_alphabets = user_choices['different_alphabets'] == 'Yes'
+        args.num_outputs = int(user_choices['num_outputs'])
+        args.rand_col = user_choices['rand_col'] == 'Yes'
+        args.rand_pleasing_col = user_choices['rand_pleasing_col'] == 'Yes'
+        args.sober = user_choices['sober'] == 'Yes'
+        args.landscape = user_choices['landscape'] == 'Yes'
+        args.alphabet = ALPHABETS.index(user_choices['alphabet']) if 'alphabet' in user_choices else 0
+        args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
+        args.ulabel = user_choices['ulabel'] if 'ulabel' in user_choices else None
+    elif args.settings:
+        user_choices = get_user_choices()
+        save_settings(user_choices)
+        args.min_bishops = int(user_choices['min_bishops'])
+        args.max_bishops = int(user_choices['max_bishops'])
+        args.different_alphabets = user_choices['different_alphabets'] == 'Yes'
+        args.num_outputs = int(user_choices['num_outputs'])
+        args.rand_col = user_choices['rand_col'] == 'Yes'
+        args.rand_pleasing_col = user_choices['rand_pleasing_col'] == 'Yes'
+        args.sober = user_choices['sober'] == 'Yes'
+        args.landscape = user_choices['landscape'] == 'Yes'
+        args.alphabet = ALPHABETS.index(user_choices['alphabet']) if 'alphabet' in user_choices else 0
+        args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
+        args.ulabel = user_choices['ulabel'] if 'ulabel' in user_choices else None
+    elif args.I:
         user_choices = get_user_choices()
         args.min_bishops = int(user_choices['min_bishops'])
         args.max_bishops = int(user_choices['max_bishops'])
@@ -282,7 +326,8 @@ if __name__ == "__main__":
         args.rand_col = user_choices['rand_col'] == 'Yes'
         args.rand_pleasing_col = user_choices['rand_pleasing_col'] == 'Yes'
         args.sober = user_choices['sober'] == 'Yes'
-        args.landscape = user_choices['landscape'] == 'Yes'  
+        args.landscape = user_choices['landscape'] == 'Yes'
+        args.alphabet = ALPHABETS.index(user_choices['alphabet']) if 'alphabet' in user_choices else 0
         args.label = user_choices['label'] in ['Yes, random', 'Yes, custom']
         args.ulabel = user_choices['ulabel'] if 'ulabel' in user_choices else None
     else:
@@ -307,7 +352,7 @@ if __name__ == "__main__":
 
         bg_r, bg_g, bg_b = hex_to_rgb(bg_color_hex)
         term_bg = rgb_to_reportlab(bg_r, bg_g, bg_b)
-        
+
         num_bishops = random.randint(args.min_bishops, args.max_bishops)
         random_bytes = [random.randint(0, 255) for _ in range(200)]
         room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops, args.sober)
@@ -316,7 +361,7 @@ if __name__ == "__main__":
 
         # Update the counter file
         pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
-    
+
         # Generate label based on user input or auto-generation
         if args.label:
             if args.ulabel:  # User has provided a custom label
