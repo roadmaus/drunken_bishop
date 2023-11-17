@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import random
 import colorsys
@@ -302,7 +303,7 @@ if __name__ == "__main__":
         elif args.rand_pleasing_col:
             bg_color_hex = generate_pleasing_color()
         else:
-            bg_color_hex = "1E1E1E"  # The default color
+            bg_color_hex = "1E1E1E" 
 
         bg_r, bg_g, bg_b = hex_to_rgb(bg_color_hex)
         term_bg = rgb_to_reportlab(bg_r, bg_g, bg_b)
@@ -329,4 +330,5 @@ if __name__ == "__main__":
         print(f"Generated pattern #{pattern_number}: {filename_without_extension}")
         write_to_pdf(room_string, filename_without_extension, banner_text)
         if args.num_outputs < 2 or len(sys.argv) == 1:
+            print("Preview")
             print(room_string)
