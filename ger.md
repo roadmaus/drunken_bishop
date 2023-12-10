@@ -4,9 +4,9 @@
 
 ## Beschreibung
 
-Dieses Python-Skript generiert zufällige ASCII-Muster unter Verwendung mehrerer Bischöfe mit verschiedenen Anpassungsoptionen. Es produziert sowohl Text- als auch PDF-Ausgaben mit den ASCII-Mustern. Der Kernalgorithmus dieses Projekts basiert auf dem "betrunkenen-Bischof"-Algorithmus zur Visualisierung von SSH-Schlüsselfingerabdrücken in OpenSSH.
+Dieses Python-Skript generiert zufällige ASCII-Muster unter Verwendung mehrerer Bischöfe mit verschiedenen Anpassungsoptionen. Es produziert sowohl Text- als auch PDF-Ausgaben mit den ASCII-Mustern. Der Kernalgorithmus dieses Projekts basiert auf dem "drunken-bishop"-Algorithmus zur Visualisierung von SSH-Schlüsselfingerabdrücken in OpenSSH.
 
-Dieses Projekt wurde inspiriert von und enthält modifizierten Code aus Manfred Tourons Implementierung des "betrunkenen-Bischof"-Algorithmus, das ursprüngliche Konzept des Algorithmus wird jedoch Alexander von Gernler zugeschrieben.
+Dieses Projekt wurde inspiriert von und enthält modifizierten Code aus Manfred Tourons Implementierung des "drunken-bishop"-Algorithmus, das ursprüngliche Konzept des Algorithmus wird jedoch Alexander von Gernler zugeschrieben.
 
 ## Funktionen
 
@@ -191,4 +191,4 @@ Fühlen Sie sich frei, das Repository zu forken und Pull-Anfragen einzureichen. 
 
 ## Lizenz
 
-Dieses Projekt beinhaltet Elemente von Manfred Tourons "betrunkenen-Bischof"-Algorithmus (https://github.com/moul/drunken-bishop). Dieses Werk ist unter der MIT-Lizenz lizenziert. Weitere Details finden Sie in der Datei LICENSE.
+Dieses Projekt beinhaltet Elemente von Manfred Tourons "drunken-bishop"-Algorithmus (https://github.com/moul/drunken-bishop). Dieses Werk ist unter der MIT-Lizenz lizenziert. Weitere Details finden Sie in der Datei LICENSE.
