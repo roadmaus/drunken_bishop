@@ -1,5 +1,7 @@
 ![Banner](banner.png)
 
+[Deutsche version der Readme](ger.md)
+
 # Random ASCII Art Pattern Generator
 
 ## Description
