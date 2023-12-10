@@ -159,7 +159,7 @@ Dies startet eine interaktive Sitzung mit einer Reihe von Fragen, die es Ihnen e
 
 Das Programm unterstützt das Speichern und Laden von Einstellungen aus einer Datei für eine konsistente Nutzung über Sitzungen hinweg. 
 
-- **Einstellungen Speichern**: Verwenden Sie den `--einstellungen`-Flag, um Ihre aktuellen Einstellungen in einer Datei zu speichern.
+- **Einstellungen Speichern**: Verwenden Sie den `--settings`-Flag, um Ihre aktuellen Einstellungen in einer Datei zu speichern.
   
   ```bash
   python drunken_bishop.py --settings
