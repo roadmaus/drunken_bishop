@@ -1,10 +1,10 @@
 ![Banner](banner.png)
 
-# Zufälliger ASCII-Kunst-Muster-Generator
+# Zufälliger ASCII-Muster-Generator
 
 ## Beschreibung
 
-Dieses Python-Skript generiert zufällige ASCII-Kunst-Muster unter Verwendung mehrerer Bischöfe mit verschiedenen Anpassungsoptionen. Es produziert sowohl Text- als auch PDF-Ausgaben mit den ASCII-Mustern. Der Kernalgorithmus dieses Projekts basiert auf dem "betrunkenen-Bischof"-Algorithmus zur Visualisierung von SSH-Schlüsselfingerabdrücken in OpenSSH.
+Dieses Python-Skript generiert zufällige ASCII-Muster unter Verwendung mehrerer Bischöfe mit verschiedenen Anpassungsoptionen. Es produziert sowohl Text- als auch PDF-Ausgaben mit den ASCII-Mustern. Der Kernalgorithmus dieses Projekts basiert auf dem "betrunkenen-Bischof"-Algorithmus zur Visualisierung von SSH-Schlüsselfingerabdrücken in OpenSSH.
 
 Dieses Projekt wurde inspiriert von und enthält modifizierten Code aus Manfred Tourons Implementierung des "betrunkenen-Bischof"-Algorithmus, das ursprüngliche Konzept des Algorithmus wird jedoch Alexander von Gernler zugeschrieben.
 
@@ -14,11 +14,11 @@ Dieses Projekt wurde inspiriert von und enthält modifizierten Code aus Manfred 
 - Optionale Verwendung verschiedener Alphabete für verschiedene Bischöfe
 - Ausgabe in `.txt` und `.pdf` Formaten
 
-## Über den Betrunkenen-Bischof-Algorithmus
+## Über den drunken-bishop-Algorithmus
 
-Der "betrunkenen-Bischof"-Algorithmus, ursprünglich für die Visualisierung von SSH-Schlüsselfingerabdrücken in OpenSSH konzipiert, stellt einen anspruchsvollen Ansatz dar, komplexe Daten in ein zugängliches, visuelles Format zu übertragen. Dieser Algorithmus entstand nicht nur als skurrile Methode, sondern als robustes Mittel zur Darstellung der inhärenten Zufälligkeit und Einzigartigkeit von SSH-Schlüsseln.
+Der "drunken-bishop"-Algorithmus, ursprünglich für die Visualisierung von SSH-Schlüsselfingerabdrücken in OpenSSH konzipiert, stellt einen anspruchsvollen Ansatz dar, komplexe Daten in ein zugängliches, visuelles Format zu übertragen. Dieser Algorithmus entstand nicht nur als skurrile Methode, sondern als robustes Mittel zur Darstellung der inhärenten Zufälligkeit und Einzigartigkeit von SSH-Schlüsseln.
 
-In diesem Zusammenhang wird der Zufällige ASCII-Kunst-Muster-Generator den "betrunkenen-Bischof"-Algorithmus zweckentfremdet. Hier ist der Algorithmus nicht mehr ein Werkzeug für die Sicherheitsvisualisierung, sondern ein Instrument zur Erzeugung unverwechselbarer ASCII-Muster. Das Kernprinzip des Algorithmus ist seine stochastische Bewegung, die an die diagonalen Schritte eines Bischofs im Schach erinnert. Diese Bewegung, diktiert durch die Eingabedaten, stellt sicher, dass jede Ausführung ein einzigartiges, nicht repetitives Muster ergibt.
+In diesem Zusammenhang wird der Zufällige ASCII-Muster-Generator den "drunken-bishop"-Algorithmus zweckentfremdet. Hier ist der Algorithmus nicht mehr ein Werkzeug für die Sicherheitsvisualisierung, sondern ein Instrument zur Erzeugung unverwechselbarer ASCII-Muster. Das Kernprinzip des Algorithmus ist seine stochastische Bewegung, die an die diagonalen Schritte eines Bischofs im Schach erinnert. Diese Bewegung, diktiert durch die Eingabedaten, stellt sicher, dass jede Ausführung ein einzigartiges, nicht repetitives Muster ergibt.
 
 Die Eleganz des Algorithmus liegt in seiner Fusion aus Einfachheit und Komplexität, Ordnung und Chaos. Er demonstriert, wie algorithmische Prozesse ihre ursprünglichen utilitaristischen Zwecke transzendieren können, um kreative Expression zu inspirieren.
 
@@ -136,7 +136,7 @@ python drunken_bishop.py
 Um die Anzahl der Bischöfe, verschiedene Alphabete und andere Einstellungen anzupassen:
 
 ```bash
-python drunken_bishop.py --min-bischöfe 4 --max-bischöfe 20 --verschiedene-alphabete --anzahl-ausgaben 12 --zufällige-farbe --nüchtern --querformat 
+python drunken_bishop.py --min-bishops 4 --max-bishops 20 --different-alphabets --num-outputs 12 --rand-col --sober --landscape 
 ```
 
 ### Interaktiver Modus und Einstellungen
@@ -162,7 +162,7 @@ Das Programm unterstützt das Speichern und Laden von Einstellungen aus einer Da
 - **Einstellungen Speichern**: Verwenden Sie den `--einstellungen`-Flag, um Ihre aktuellen Einstellungen in einer Datei zu speichern.
   
   ```bash
-  python drunken_bishop.py --einstellungen
+  python drunken_bishop.py --settings
   ```
 
 - **Einstellungen Laden**: Verwenden Sie den `--s`-Flag, um Einstellungen aus einer bestehenden Datei zu laden.
