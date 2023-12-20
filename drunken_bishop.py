@@ -6,6 +6,7 @@ import colorsys
 import inquirer 
 import argparse
 import unicodedata
+import subprocess
 from PIL import Image, ImageDraw, ImageFont
 import pandas as pd
 from reportlab.lib.pagesizes import letter
@@ -253,6 +254,17 @@ def write_to_file(room_string, banner_text=None):
     
     return filename  
 
+#def print_directly(output_string):
+    # Prepare the string with escape sequences
+    #formatted_output = "\033@" + output_string + "\n\n\033@"
+    
+    # Command to execute
+    #command = f"echo -e '{formatted_output}' | lp -d LQ-350"
+    
+    # Execute the command using subprocess
+    #subprocess.run(command, shell=True, check=True)
+    
+    
 def hex_to_rgb(hex_code):
     hex_code = hex_code.lstrip("#")
     return tuple(int(hex_code[i:i+2], 16) for i in (0, 2, 4))
@@ -375,11 +387,12 @@ if __name__ == "__main__":
             args.label = True
 
     if args.landscape:
-        RoomWidth = 160  
-        RoomHeight = 50  
+        RoomWidth = 120  # Adjusted width for landscape
+        RoomHeight = 40  # Adjusted height for landscape
     else:
-        RoomWidth = 100  
-        RoomHeight = 80 
+        RoomWidth = 75   # Adjusted width for portrait
+        RoomHeight = 65  # Adjusted height for portrait
+
 
     for i in range(args.num_outputs):
         if args.rand_col:
@@ -398,6 +411,9 @@ if __name__ == "__main__":
         room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
         filename_without_extension = write_to_file(room_string)
 
+        # Print directly
+        #print_directly(room_string)
+        
         # Update the counter file
         pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
 
