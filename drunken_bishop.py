@@ -96,7 +96,9 @@ ALPHABETS = [
     " ▁▂▃▄▅▆▇█",
     " ○◔◑◕●",
     " 01",
-    "01"
+    "01",
+    " .o+=*BOX@%&#/^▁▂▃▄▅▆▇█↑↗→↘↓↙←↖○◔◑◕●!?@#$%^&*()-=_⎛⎞⎠⎝⎡⎤⎨⎬⎫⎧◜◝◞◟◠◡☣☠☢☤☩☫☬☹"
+
 ]
 
 DIRECTIONS = {
@@ -159,7 +161,7 @@ def from_bytes(input_bytes, num_bishops, sober=False, faces=False):
     if args.different_alphabets:
         bishop_alphabets = [random.choice(ALPHABETS) for _ in range(num_bishops)]
     else:
-        bishop_alphabets = [ALPHABETS[args.alphabet] for _ in range(num_bishops)]  
+        bishop_alphabets = [ALPHABETS[args.alphabet] for _ in range(num_bishops)]
 
     for byte in input_bytes:
         bits = format(byte, '08b')
@@ -168,6 +170,7 @@ def from_bytes(input_bytes, num_bishops, sober=False, faces=False):
         for i, pos in enumerate(bishop_positions):
             for bitpair in bitpairs:
                 direction = list(DIRECTIONS.keys())[int(bitpair, 2) % 8]
+            
                 
                 # Add bias if --faces flag is used
                 if faces and random.random() < 0.2:  # 20% chance to apply bias
@@ -192,25 +195,22 @@ def from_bytes(input_bytes, num_bishops, sober=False, faces=False):
                 pos[0] = max(0, min(RoomHeight - 1, pos[0]))
                 pos[1] = max(0, min(RoomWidth - 1, pos[1]))
 
-                # Only increment the count if it's less than max_visits
-                if room[pos[0]][pos[1]] < max_visits:
-                    room[pos[0]][pos[1]] += 1
-                bishop_tracker[pos[0]][pos[1]] = i  # Update tracker with the current bishop index
+                # Increment without the max_visits limit
+                room[pos[0]][pos[1]] += 1
+                bishop_tracker[pos[0]][pos[1]] = i
 
                 # If the sober flag is used, mirror the bishop's movements
                 if sober:
                     mirror_pos = [pos[0], RoomWidth - 1 - pos[1]]
-                    if room[mirror_pos[0]][mirror_pos[1]] < max_visits:
-                        room[mirror_pos[0]][mirror_pos[1]] += 1
+                    room[mirror_pos[0]][mirror_pos[1]] += 1
                     bishop_tracker[mirror_pos[0]][mirror_pos[1]] = i
-    
+
     return room, bishop_alphabets, bishop_tracker
 
 # Adding the function to get the string width
 def get_str_width(s):
     return sum(2 if unicodedata.east_asian_width(c) in ['F', 'W'] else 1 for c in s)
 
-# Modified room_to_string function
 def room_to_string(room, bishop_alphabets, bishop_tracker):
     output = "+" + "-" * RoomWidth + "+\n"
     for row_idx, row in enumerate(room):
@@ -222,10 +222,10 @@ def room_to_string(room, bishop_alphabets, bishop_tracker):
                 char = StartChar
             elif col == EndCode:
                 char = EndChar
-            elif col < len(bishop_alphabets[bishop_index]):
-                char = bishop_alphabets[bishop_index][col]
             else:
-                char = UnknownChar
+                # Use modulo to cycle through the alphabet
+                index = col % len(bishop_alphabets[bishop_index])
+                char = bishop_alphabets[bishop_index][index]
 
             line.append(char)
 
