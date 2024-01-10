@@ -38,6 +38,8 @@ parser.add_argument('--alphabet', type=int, default=0, help='Choose the alphabet
 parser.add_argument('--faces', action='store_true', help='Attract bishops towards the middle of the board, works best in conjunction with the --sober flag')
 parser.add_argument('--settings', action='store_true', help='Save settings to a file')
 parser.add_argument('--s', action='store_true', help='Load settings from a file')
+parser.add_argument('--mandala', action='store_true', help='Generate a mandala-like pattern')
+
 
 args = parser.parse_args()
 
@@ -207,6 +209,53 @@ def from_bytes(input_bytes, num_bishops, sober=False, faces=False):
                     bishop_tracker[mirror_pos[0]][mirror_pos[1]] = i
 
     return room, bishop_alphabets, bishop_tracker
+
+
+def from_bytes_mandala(input_bytes, num_bishops, faces=False):
+    room = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]
+    bishop_tracker = [[0 for _ in range(RoomWidth)] for _ in range(RoomHeight)]
+    
+    bishop_positions = [[random.randint(0, RoomHeight - 1), random.randint(0, RoomWidth - 1)] for _ in range(num_bishops)]
+    bishop_alphabets = [ALPHABETS[args.alphabet] for _ in range(num_bishops)]
+
+    for byte in input_bytes:
+        bits = format(byte, '08b')
+        bitpairs = [bits[i:i+2] for i in range(0, 8, 2)]
+
+        for i, pos in enumerate(bishop_positions):
+            for bitpair in bitpairs:
+                direction = list(DIRECTIONS.keys())[int(bitpair, 2) % 8]
+
+                # Apply movement based on the direction
+                dY, dX = DIRECTIONS[direction]
+                pos[0] = (pos[0] + dY) % RoomHeight
+                pos[1] = (pos[1] + dX) % RoomWidth
+
+                # Update position for mandala effect
+                update_position_mandala(room, bishop_tracker, pos, i)
+
+    return room, bishop_alphabets, bishop_tracker
+
+def update_position_mandala(room, bishop_tracker, position, bishop_index):
+    # Update original position
+    room[position[0]][position[1]] += 1
+    bishop_tracker[position[0]][position[1]] = bishop_index
+
+    # Mirror horizontally
+    mirror_pos_h = [position[0], RoomWidth - 1 - position[1]]
+    room[mirror_pos_h[0]][mirror_pos_h[1]] += 1
+    bishop_tracker[mirror_pos_h[0]][mirror_pos_h[1]] = bishop_index
+
+    # Mirror vertically
+    mirror_pos_v = [RoomHeight - 1 - position[0], position[1]]
+    room[mirror_pos_v[0]][mirror_pos_v[1]] += 1
+    bishop_tracker[mirror_pos_v[0]][mirror_pos_v[1]] = bishop_index
+
+    # Mirror both axes
+    mirror_pos_hv = [RoomHeight - 1 - position[0], RoomWidth - 1 - position[1]]
+    room[mirror_pos_hv[0]][mirror_pos_hv[1]] += 1
+    bishop_tracker[mirror_pos_hv[0]][mirror_pos_hv[1]] = bishop_index
+
 
 # Adding the function to get the string width
 def get_str_width(s):
@@ -416,6 +465,17 @@ if __name__ == "__main__":
         #print_directly(room_string)
         
         # Update the counter file
+        pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
+
+
+        if args.mandala:
+            room, bishop_alphabets, bishop_tracker = from_bytes_mandala(random_bytes, num_bishops, args.faces)
+        else:
+            room, bishop_alphabets, bishop_tracker = from_bytes(random_bytes, num_bishops, args.sober, args.faces)
+
+        room_string = room_to_string(room, bishop_alphabets, bishop_tracker)
+        filename_without_extension = write_to_file(room_string)
+
         pattern_name, pattern_number = update_counter(filename_without_extension, num_bishops, args.sober, random_bytes)
 
         # Generate label based on user input or auto-generation
